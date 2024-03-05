@@ -1,0 +1,65 @@
+import React, { useState } from "react";
+import AccordionUI from "../components/AcconlateUI";
+
+const Accordion = () => {
+  const [Index, setIndex] = useState(false);
+
+  const data = [
+    {
+      id: 1,
+      question: "หลักการออกแบบเว็บ",
+      color: "#FF0000", 
+      answer: ["ใบความรู้ - หลักการออกแบบเว็บไซต์", "วิดีโอ - หลักการออกแบบเว็บไซต์ ตอนที่ 1" ,"วิดีโอ - หลักการออกแบบเว็บไซต์ ตอนที่ 2"
+      ]
+    },
+    {
+        id: 2,
+        question: "การวางแผนออกแบบเว็บไซต์",
+        color: "#FF0000", 
+        answer: ["ใบความรู้ - การวางแผนออกแบบเว็บไซต์", "วิดีโอ - การวางแผนออกแบบเว็บไซต์ ตอนที่ 1" ,"วิดีโอ - การวางแผนออกแบบเว็บไซต์ ตอนที่ 2"
+        ]
+      },
+      {
+        id: 3,
+        question: "การวางแผนระบบนำทาง",
+        
+        answer: ["ใบความรู้ - การวางแผนระบบนำทาง", "วิดีโอ - การวางแผนระบบนำทางตอนที่ 1" ,"วิดีโอ - การวางแผนระบบนำทาง ตอนที่ 2"
+        ]
+      },
+      {
+        id: 4,
+        question: "การออกแบบเนื้อหา",
+        
+        answer: ["ใบความรู้ - การออกแบบเนื้อหา", "วิดีโอ - การออกแบบเนื้อหา ตอนที่ 1" ,"วิดีโอ - การออกแบบเนื้อหาตอนที่ 2"
+        ]
+      },
+      {
+        id: 5,
+        question: "แบบทดสอบหลังเรียน",
+        
+        answer: ["แบบทดสอบหลังเรียน"
+        ]
+      },
+      
+    
+
+  ];
+
+  return (
+    <div className="flex flex-col justify-start rounded-xl h-auto ">
+      {data.map((data) => {
+        return (
+          <AccordionUI
+            title={data.question}
+            Id={data.id}
+            children={data.answer}
+            Index={Index}
+            setIndex={setIndex}
+            color={data.color} 
+          ></AccordionUI>
+        );
+      })}
+    </div>
+  );
+};
+export default Accordion;
