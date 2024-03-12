@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import MyYoshi from '../images/Yoshi.png';
+import ann from '../images/Ann.jpg';
 import Home from '../images/home.png';
 import { ChevronDoubleLeftIcon,HomeIcon ,ArchiveBoxXMarkIcon,PencilSquareIcon,DocumentPlusIcon } from "@heroicons/react/24/outline";
 import HomeAdmin from './HomeAdmin';
@@ -26,7 +26,7 @@ const SidebarContext = () => {
 
           <div className="flex gap-x-4 items-center">
             <img
-              src={MyYoshi.src}
+              src={ann.src}
               className={`cursor-pointer rounded-full w-10 duration-500  ${open && "rotate-[360deg]"
                 }`}
             />
@@ -34,7 +34,7 @@ const SidebarContext = () => {
               className={`text-white origin-left font-medium text-lg duration-200 ${!open && "scale-0"
                 }`}
             >
-              Kamon eiei
+              แอน อรดี
               <p className='text-sm text-gray-300 '>Admin</p>
             </h1>
           </div>
