@@ -55,70 +55,10 @@ const SidebarContext = () => {
                   <p className='text-lg mt-2  text-white '>หน้าหลัก</p>
                 </span>
 
-
               </li>
             </Link>
-
-            <Link href='/components/Addcourse'>
-              <li
-
-                className={"flex hover:bg-blue-400  p-2  cursor-pointer  rounded-md   text-white text-sm items-center gap-x-4 "}
-              >
-                <DocumentPlusIcon  className="h-8 w-8 text-gray-200" />
-
-                {/* <img
-                  src={MyYoshi.src}
-                  className={`cursor-pointer rounded-full w-10 duration-500  ${open && "rotate-[360deg]  "
-                    }`}
-                /> */}
-                <span className={`${!open && "hidden"} origin-left text-[1.2em] duration-200`}>
-                  <p className='text-[1em] mt-2  text-gray-200'>เพิ่มรายวิชา</p>
-                </span>
-
-
-              </li>
-            </Link>
-            <Link href='/components/Edit'>
-              <li
-
-                className={"flex hover:bg-blue-400  p-2  cursor-pointer  rounded-md   text-white text-sm items-center gap-x-4 "}
-              >
-                <PencilSquareIcon className="h-8 w-8text-gray-200" />
-
-                {/* <img
-                  src={MyYoshi.src}
-                  className={`cursor-pointer rounded-full w-10 duration-500  ${open && "rotate-[360deg]  "
-                    }`}
-                /> */}
-                <span className={`${!open && "hidden"} origin-left text-[1.2em] duration-200`}>
-                  <p className='text-[1em] mt-2  text-gray-200'>แก้ไขรายวิชา</p>
-                </span>
-
-
-              </li>
-            </Link>
-            <Link href='/components/Delete'>
-              <li
-
-                className={"flex hover:bg-blue-400  p-2  cursor-pointer  rounded-md   text-white text-sm items-center gap-x-4 "}
-              >
-                <ArchiveBoxXMarkIcon className="h-8 w-8 text-gray-200" />
-
-                {/* <img
-                  src={MyYoshi.src}
-                  className={`cursor-pointer rounded-full w-10 duration-500  ${open && "rotate-[360deg]  "
-                    }`}
-                /> */}
-                <span className={`${!open && "hidden"} origin-left text-[1.2em] duration-200`}>
-                  <p className='text-[1em] mt-2  text-gray-200'>ลบรายวิชา</p>
-                </span>
-
-
-              </li>
-            </Link>
-
+           
           </ul>
-
 
         </div>
 

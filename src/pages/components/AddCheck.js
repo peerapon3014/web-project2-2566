@@ -77,7 +77,7 @@ const SidebarContext = () => {
                     <form>
                         <div className="space-y-12">
                             <div className="border-b border-gray-900/10 pb-12">
-                                <h2 className=" mt-5 text-[2em] leading-6 text-center font-bold  text-[#0F75BE] ">เพิ่มรายวิชา</h2>
+                                <h2 className=" mt-5 text-[2em] leading-6 text-center font-bold  text-[#0F75BE] ">เพิ่มเช็คชื่อ</h2>
 
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 ">

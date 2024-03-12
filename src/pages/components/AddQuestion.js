@@ -19,9 +19,7 @@ const SidebarContext = () => {
     ];
     const Menus = [
         { title: "หน้าหลัก", src: "home" },
-        { title: "เพิ่มวิชาเรียน", src: "Chat" },
-        { title: "แก้ไขวิชาเรียน", src: "User" },
-
+        
     ];
 
     return (
@@ -56,29 +54,21 @@ const SidebarContext = () => {
                             >
                                 <HomeIcon className="h-8 w-8 text-white" />
 
-                                {/* <img
-                  src={MyYoshi.src}
-                  className={`cursor-pointer rounded-full w-10 duration-500  ${open && "rotate-[360deg]  "
-                    }`}
-                /> */}
                                 <span className={`${!open && "hidden"} origin-left text-[1.2em] duration-200`}>
                                     <p className='text-lg mt-2  text-white '>หน้าหลัก</p>
                                 </span>
-
 
                             </li>
                         </Link>
 
                     </ul>
 
-
                 </div>
                 <div className=' flex-1 bg-white  p-6 py-8 lg:px-32 md:px-8 m-5 rounded-lg h-[60em]'>
                     <form>
                         <div className="space-y-12">
                             <div className="border-b border-gray-900/10 pb-12">
-                                <h2 className=" mt-5 text-[2em] leading-6 text-center font-bold  text-[#0F75BE] ">เพิ่มรายวิชา</h2>
-
+                                <h2 className=" mt-5 text-[2em] leading-6 text-center font-bold  text-[#0F75BE] ">เพิ่มคำถาม</h2>
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 ">
 
@@ -100,32 +90,7 @@ const SidebarContext = () => {
                                         </div>
 
                                     </div> */}
-                                    <div className="w-full sm:col-span-2 gap-4">
-                                        {variants.map((variant) => (
-                                            <div key={variant} className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                <Input type="email" variant={variant} label="ชื่อรายวิชา" />
-
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <div className="w-full sm:col-span-2 ">
-                                        {variants.map((variant) => (
-                                            <div key={variant} className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                <Select
-                                                    variant={variant}
-                                                    label="ระดับการศึกษา"
-                                                    className="max-w-xs"
-                                                >
-                                                    {animals.map((animal) => (
-                                                        <SelectItem key={animal.value} value={animal.value}>
-                                                            {animal.label}
-                                                        </SelectItem>
-                                                    ))}
-                                                </Select>
-
-                                            </div>
-                                        ))}
-                                    </div>
+                                  
                                     {/* <div className="sm:col-span-2">
                                         <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
                                             ระดับการศึกษา
@@ -143,25 +108,7 @@ const SidebarContext = () => {
                                             </select>
                                         </div>
                                     </div> */}
-                                    <div className="w-full sm:col-span-2 ">
-                                        {variants.map((variant) => (
-                                            <div key={variant} className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                <Select
-                                                    variant={variant}
-                                                    label="สาขาวิชา"
-                                                    className="max-w-xs"
-                                                >
-                                                    {fac.map((animal) => (
-                                                        <SelectItem key={animal.value} value={animal.value}>
-                                                            {animal.label}
-                                                        </SelectItem>
-                                                    ))}
-                                                </Select>
-
-                                            </div>
-                                        ))}
-                                    </div>
-
+                                    
                                     {/* <div className="sm:col-span-2">
                                         <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
                                             ภาคการศึกษา
@@ -179,24 +126,6 @@ const SidebarContext = () => {
                                             </select>
                                         </div>
                                     </div> */}
-                                    <div className="w-full sm:col-span-2 ">
-                                        {variants.map((variant) => (
-                                            <div key={variant} className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                <Select
-                                                    variant={variant}
-                                                    label="ภาคการศึกษา"
-                                                    className="max-w-xs"
-                                                >
-                                                    {pack.map((animal) => (
-                                                        <SelectItem key={animal.value} value={animal.value}>
-                                                            {animal.label}
-                                                        </SelectItem>
-                                                    ))}
-                                                </Select>
-
-                                            </div>
-                                        ))}
-                                    </div>
 
                                     <div className="col-span-full">
                                         <label htmlFor="cover-photo" className="block text-xl font-medium leading-6 text-gray-900">
