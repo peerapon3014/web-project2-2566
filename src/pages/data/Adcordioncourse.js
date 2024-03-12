@@ -40,6 +40,14 @@ const Accordion = () => {
         answer: ["แบบทดสอบหลังเรียน"
         ]
       },
+      {
+        id: 6,
+        question: "คำถาม",
+        
+        answer: ["คำถาม"
+        ]
+      },
+     
       
     
 
