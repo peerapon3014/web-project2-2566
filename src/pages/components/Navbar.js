@@ -145,7 +145,7 @@ const navigation = () => {
                         {!user ? null : (
                         <Link href="/components/Sidebar" className={`text-md font-normal leading-6  ${showBackground ? "text-white" : ""
                             }`}>
-                            Admin
+                            สำหรับอาจารย์
                         </Link>
                         )}
                         
