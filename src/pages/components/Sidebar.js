@@ -38,7 +38,7 @@ const SidebarContext = () => {
               onClick={() => setOpen(!open)} />
 
             <div className="flex gap-x-4 items-center">
-              <Avatar src={user.photoURL}
+              <img src={user.photoURL}
                 className={`cursor-pointer rounded-full w-10 duration-500  ${open && "rotate-[360deg]"
                   }`}
               />
