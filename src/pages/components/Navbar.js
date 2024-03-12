@@ -1,7 +1,5 @@
-import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import {Avatar} from "@nextui-org/react";
-
 import { Fragment, useState, useEffect } from 'react';
 import { Dialog, Disclosure, Popover, Menu, Transition } from '@headlessui/react';
 import {
@@ -15,11 +13,7 @@ import {
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import MyLogo from '../images/Logo.png';
-import Yoshi from '../images/Yoshi.png';
-import MyLogoWhite from '../images/Logo-white.png';
 import { UserAuth } from "../context/AuthContext";
-import { px } from 'framer-motion';
-
 
 const products = [
     { name: 'วิทยาการคอมพิวเตอร์', href: '/components/cs/cscourse', icon: ChartPieIcon },
@@ -45,15 +39,15 @@ const navigation = () => {
         } catch (error) {
           console.log(error);
         }
-      };
+    };
     
-      const handleSignOut = async () => {
+    const handleSignOut = async () => {
         try {
           await logOut();
         } catch (error) {
           console.log(error);
         }
-      };
+    };
     
     useEffect(() => {
         const handleScroll = () => {
@@ -71,15 +65,6 @@ const navigation = () => {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
-
-    // //logo scroll function
-    // const changeLogo = () => {
-    //     if (window.scrollY >= TOP_OFFSET) {
-    //         setNavbarLogo(MyLogoWhite)
-    //     } else {
-    //         setNavbarLogo(MyLogo)
-    //     }
-    // }
 
     useEffect(() => {
         const checkAuthentication = async () => {
@@ -157,6 +142,12 @@ const navigation = () => {
                             }`}>
                             รายวิชาของฉัน
                         </Link>
+                        {!user ? null : (
+                        <Link href="/components/Sidebar" className={`text-md font-normal leading-6  ${showBackground ? "text-white" : ""
+                            }`}>
+                            Admin
+                        </Link>
+                        )}
                         
                     </Popover.Group>
                 </div>
@@ -181,52 +172,6 @@ const navigation = () => {
                             </div>
                         </>
                     )}
-                    {/* <Menu as="div" className="relative ml-3">
-                        <div>
-                            <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                            <span className="absolute -inset-1.5" />
-                            <span className="sr-only">Open user menu</span>
-                            <img
-                                className="h-10 w-10 rounded-full"
-                                src={Yoshi.src}
-                                alt=""
-                            />
-                            </Menu.Button>
-                        </div>
-                        <Transition
-                            as={Fragment}
-                            enter="transition ease-out duration-100"
-                            enterFrom="transform opacity-0 scale-95"
-                            enterTo="transform opacity-100 scale-100"
-                            leave="transition ease-in duration-75"
-                            leaveFrom="transform opacity-100 scale-100"
-                            leaveTo="transform opacity-0 scale-95"
-                        >
-                            <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <Menu.Item>
-                                {({ active }) => (
-                                <Link
-                                    href="/components/Profile"
-                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                >
-                                    ข้อมูลส่วนตัว
-                                </Link>
-                                )}
-                            </Menu.Item>
-                            <Menu.Item>
-                                {({ active }) => (
-                                <Link
-                                    href="/components/Sidebar"
-                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                >
-                                    ออกจากระบบ
-                                </Link>
-                                )}
-                            </Menu.Item>
-                            
-                            </Menu.Items>
-                        </Transition>
-                    </Menu> */}
 
                     <div className="flex lg:hidden">
                         <button
