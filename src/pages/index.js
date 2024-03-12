@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import Homepage from "@/pages/components/Homepage";
 import Sidebar from "./components/Sidebar";
-import { AuthContextProvider } from "./context/AuthContext";
+import MyNav from '@/pages/components/Navbar' 
 
 // import Course from "./components/Course"
 
@@ -10,9 +10,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 export default function Home() {
   return (
     <main className=' font-mtsans overflow-hidden'>
-      <AuthContextProvider>
-        <Homepage/>
-      </AuthContextProvider>
+      <Homepage/>
     
     
     {/* <Course/> */}
