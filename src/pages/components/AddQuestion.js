@@ -5,7 +5,7 @@ import { animals, fac, pack } from "../data/dataselect";
 import HomeAdmin from './HomeAdmin';
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { Input, Select, SelectItem } from "@nextui-org/react";
-import { ChevronDoubleLeftIcon, HomeIcon, ArchiveBoxXMarkIcon, PencilSquareIcon, DocumentPlusIcon } from "@heroicons/react/24/outline";
+import { ChevronDoubleLeftIcon, HomeIcon, ArchiveBoxXMarkIcon, PencilSquareIcon, DocumentPlusIcon,ChatBubbleOvalLeftIcon } from "@heroicons/react/24/outline";
 import Link from 'next/link';
 
 const SidebarContext = () => {
@@ -56,6 +56,25 @@ const SidebarContext = () => {
 
                                 <span className={`${!open && "hidden"} origin-left text-[1.2em] duration-200`}>
                                     <p className='text-lg mt-2  text-white '>หน้าหลัก</p>
+                                </span>
+
+                            </li>
+                        </Link>
+
+                        <Link href='/components/SidebarQuestion'>
+                            <li
+
+                                className={"flex hover:bg-blue-400  p-2  cursor-pointer  rounded-md   text-white text-sm items-center gap-x-4 "}
+                            >
+                                <ChatBubbleOvalLeftIcon className="h-8 w-8 text-gray-200" />
+
+                                {/* <img
+                  src={MyYoshi.src}
+                  className={`cursor-pointer rounded-full w-10 duration-500  ${open && "rotate-[360deg]  "
+                    }`}
+                /> */}
+                                <span className={`${!open && "hidden"} origin-left text-[1.2em] duration-200`}>
+                                    <p className='text-lg mt-2  text-white '>เพิ่มคำถาม</p>
                                 </span>
 
                             </li>

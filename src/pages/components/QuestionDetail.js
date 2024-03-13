@@ -6,7 +6,7 @@ const includedFeatures = [
   'การออกแบบเนื้อหา',
   'การวางแผนระบบนำทาง',
 ]
-import Accordion from "@/pages/data/Adcordioncourse"
+import Accordion from "@/pages/data/AdcordionQuestion"
 import MyNav from '@/pages/components/Navbar' 
 import MyFooter from '@/pages/components/footer'  
 
@@ -29,20 +29,19 @@ export default function QuestionDetail() {
           <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
             <div className=" py-10  lg:flex lg:flex-col lg:justify-center lg:py-16">
               <div className="mx-auto max-w-xs px-8">
-              
-              
+                         
               </div>
             </div>
           </div>
         </div>
-{/* 
+
         <div className='bg-white  shadow-xl shadow-blue-100/50  mt-10 p-8 '> 
           <div className='mb-5 '>
             <Accordion />
             
              </div>
           
-        </div> */}
+        </div>
           
       </div>
     </div><MyFooter/></>

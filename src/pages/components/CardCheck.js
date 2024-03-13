@@ -18,8 +18,8 @@ export default function App() {
                  </div>
                <hr></hr>
                 <p className="text-sm text-black">รหัสเช็คชื่อ</p>
-                <hr></hr>
-                <div className="card-actions justify-end">
+                {/* <hr></hr> */}
+                {/* <div className="card-actions justify-end">
                     <div className="tooltip" data-tip="แก้ไข">
                     <PencilSquareIcon className="h-6 w-6 text-yellow-500 "/>
                     </div>
@@ -27,7 +27,7 @@ export default function App() {
                     <TrashIcon className="h-6 w-6 text-red-500" />
                     </div>
 
-                </div>
+                </div> */}
             </div>
         </div>
       

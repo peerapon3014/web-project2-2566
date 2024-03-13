@@ -17,7 +17,7 @@ export default function App() {
                     </div>
                  </div>
                <hr></hr>
-                <p className="text-sm text-black">รายละเอียดคำถาม</p>
+                <p className="text-sm text-black">คำถามที่ 1 </p>
                 {/* <hr></hr> */}
                 {/* <div className="card-actions justify-end">
                     <div className="tooltip" data-tip="แก้ไข">
