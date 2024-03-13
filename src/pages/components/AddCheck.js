@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import MyYoshi from '../images/Yoshi.png';
+import Ann from '../images/Ann.jpg';
 import Home from '../images/home.png';
 import { animals, fac, pack } from "../data/dataselect";
 import HomeAdmin from './HomeAdmin';
@@ -36,7 +37,7 @@ const SidebarContext = () => {
 
                     <div className="flex gap-x-4 items-center">
                         <img
-                            src={MyYoshi.src}
+                            src={Ann.src}
                             className={`cursor-pointer rounded-full w-10 duration-500  ${open && "rotate-[360deg]"
                                 }`}
                         />
@@ -44,7 +45,7 @@ const SidebarContext = () => {
                             className={`text-white origin-left font-medium text-lg duration-200 ${!open && "scale-0"
                                 }`}
                         >
-                            Kamon eiei
+                            Ann
                             <p className='text-sm text-gray-300 '>Admin</p>
                         </h1>
                     </div>
