@@ -154,7 +154,7 @@ const SidebarContext = () => {
                                         <div className="w-full sm:col-span-2 gap-4 mt-5">
                                         {variants.map((variant) => (
                                             <div key={variant} className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                                                <Input type="email" variant={variant} label="ชื่อหัวข้อบทเรียน" />
+                                                <Input type="email" variant={variant} label="ตั้งคำถามในบทเรียน" />
 
                                             </div>
                                         ))}

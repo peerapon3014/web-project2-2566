@@ -12,16 +12,16 @@ function HomeAdmin() {
 
                 <div class="grid grid-cols-1 gap-12  md:grid-cols-2 lg:grid-cols-3 mt-10">
                     <div className='block max-w-sm p-6 bg-blue-100 border-b-4 border-[#1373BB] rounded-lg shadow '>
-                        <p className='text-2xl font-bold tracking-tight text-[#0F75BE] '>รายวิชาทั้งหมด</p>
-                        <p className='mb-2 mt-5 text-2xl font-bold tracking-tight text-blue-500'>12</p>
+                        <p className='text-2xl font-bold tracking-tight text-[#0F75BE] '>จำนวนนักศึกษาทั้งหมด</p>
+                        <p className='mb-2 mt-5 text-2xl font-bold tracking-tight text-blue-500'>52</p>
                     </div>
                     <div className='block max-w-sm p-6 bg-blue-100 rounded-lg shadow border-b-4 border-[#1373BB]'>
-                        <p className='text-2xl font-bold tracking-tight text-[#0F75BE] '> จำนวนนักศึกษาที่เรียน</p>
-                        <p className='mb-2 mt-5 text-2xl font-bold tracking-tight text-blue-500'>24</p>
+                        <p className='text-2xl font-bold tracking-tight text-[#0F75BE] '> จำนวนนักศึกษาที่เช็คชื่อ</p>
+                        <p className='mb-2 mt-5 text-2xl font-bold tracking-tight text-blue-500'>48</p>
                     </div>
                     <div className='block max-w-sm p-6 bg-blue-100 rounded-lg shadow border-b-4 border-[#1373BB]'>
-                        <p className='text-2xl font-bold tracking-tight text-[#0F75BE] '> สาขาวิชา</p>
-                        <p className='mb-2 mt-5 text-2xl font-bold tracking-tight text-blue-500'>2</p>
+                        <p className='text-2xl font-bold tracking-tight text-[#0F75BE] '> จำนวนนักศึกษาที่ขาด</p>
+                        <p className='mb-2 mt-5 text-2xl font-bold tracking-tight text-blue-500'>5</p>
                     </div>
                 </div>
 
