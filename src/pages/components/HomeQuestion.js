@@ -20,7 +20,7 @@ function HomeQuestion() {
                         <p className='mb-2 mt-5 text-2xl font-bold tracking-tight text-blue-500'>24</p>
                     </div>
                     <div className='block max-w-sm p-6 bg-blue-100 rounded-lg shadow border-b-4 border-[#1373BB]'>
-                        <p className='text-2xl font-bold tracking-tight text-[#0F75BE] '> สาขาวิชา</p>
+                        <p className='text-2xl font-bold tracking-tight text-[#0F75BE] '> จำนวนคนที่ตอบคำถาม</p>
                         <p className='mb-2 mt-5 text-2xl font-bold tracking-tight text-blue-500'>2</p>
                     </div>
                 </div>
