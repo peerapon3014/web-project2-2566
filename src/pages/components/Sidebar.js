@@ -54,7 +54,7 @@ const SidebarContext = () => {
                     }`}
                 /> */}
                 <span className={`${!open && "hidden"} origin-left text-[1.2em] duration-200`}>
-                  <p className='text-lg mt-2  text-white '>หน้าหลัก</p>
+                  <p className='text-lg mt-2  text-white '>เช็คชื่อ</p>
                 </span>
 
 
