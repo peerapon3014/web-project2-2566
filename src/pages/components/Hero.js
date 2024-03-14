@@ -18,9 +18,9 @@ export default function Hero() {
               <TypeAnimation
                 sequence={[
                   // Same substring at the start will only be typed out once, initially
-                  'E-Learning',
+                  'ระบบเช็คชื่อ ',
                   1000, // wait 1s before replacing "Mice" with "Hamsters"
-                  
+
                 ]}
                 wrapper="span"
                 speed={50}
@@ -29,23 +29,26 @@ export default function Hero() {
               />
             </h1>
             <p className="mb-5 text-xl ">
-            <TypeAnimation
+              <TypeAnimation
                 sequence={[
                   // Same substring at the start will only be typed out once, initially
-                  'college of computing khon kaen university',
+                  'Mobile and Web Application Development (SC362202)',
                   1000, // wait 1s before replacing "Mice" with "Hamsters"
-                  
+
                 ]}
                 wrapper="span"
                 speed={50}
                 style={{ fontSize: '1em', display: 'inline-block' }}
                 repeat={Infinity}
               />
-              </p>
-            <button className="btn btn-white">
-              เริ่มเรียน
-              <ArrowLongRightIcon className="h-6 w-6 text-gray-500" />
-            </button>
+            </p>
+            <Link href="/components/continuous">
+              <button className="btn btn-white">
+                เริ่มเรียน
+                <ArrowLongRightIcon className="h-6 w-6 text-gray-500" />
+              </button>
+            </Link>
+
           </div>
         </div>
       </div>

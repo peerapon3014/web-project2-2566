@@ -30,8 +30,8 @@ function Cscourse() {
                     </span>
                     <div
                       class=" pt-5 text-base leading-7 text-gray-600 transition-all duration-300 group-hover:text-white/90">
-                      <h1 class=" text-xl font-bold  ">Programming in java</h1>
-                      <p class="mb-3 font-normal ">หลักการการออกแบบเว็บไซต์ การวางแผนการทำเว็บไซต์ การออกแบบเว็บไซต์ </p>
+                      <h1 class=" text-xl font-bold  ">Programming in php</h1>
+                      <p class="mb-3 font-normal ">พัฒนาเว็บไซต์ด้วยภาษาเก่าแก่ <br/>ที่เหมือนจะหายไปจากโลก แต่ไม่หายซักที! </p>
                     </div>
 
                   </div>
@@ -52,8 +52,8 @@ function Cscourse() {
                     </span>
                     <div
                       class=" pt-5 text-base leading-7 text-gray-600 transition-all duration-300 group-hover:text-white/90">
-                      <h1 class=" text-xl font-bold  ">Web Desigh Technology</h1>
-                      <p class="mb-3 font-normal ">หลักการการออกแบบเว็บไซต์ การวางแผนการทำเว็บไซต์ การออกแบบเว็บไซต์ </p>
+                      <h1 class=" text-xl font-bold  ">Mobile and Web Application Development</h1>
+                      <p class="mb-3 font-normal ">หลักการการออกแบบเว็บไซต์ การพัฒนาบนอุปกรณ์เคลื่อนที่ </p>
                     </div>
 
                   </div>
@@ -73,8 +73,8 @@ function Cscourse() {
                     </span>
                     <div
                       class=" pt-5 text-base leading-7 text-gray-600 transition-all duration-300 group-hover:text-white/90">
-                      <h1 class=" text-xl font-bold  "> Web Services Methodology</h1>
-                      <p class="mb-3 font-normal ">หลักการการออกแบบเว็บไซต์ การวางแผนการทำเว็บไซต์ การออกแบบเว็บไซต์ </p>
+                      <h1 class=" text-xl font-bold  "> Cloud Computing</h1>
+                      <p class="mb-3 font-normal ">การประยุกต์ใช้คลาวด์ เทคโนโลยี Container การDeployแบบCI/CD  </p>
                     </div>
 
                   </div>
