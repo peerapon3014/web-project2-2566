@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import {Avatar} from "@nextui-org/react";
+import { Avatar } from "@nextui-org/react";
 import { Fragment, useState, useEffect } from 'react';
 import { Dialog, Disclosure, Popover, Menu, Transition } from '@headlessui/react';
 import {
@@ -18,8 +18,8 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
     signOut,
-  } from "firebase/auth";
-  import { auth } from "../firebase";
+} from "firebase/auth";
+import { auth } from "../firebase";
 
 const products = [
     { name: 'วิทยาการคอมพิวเตอร์', href: '/components/cs/cscourse', icon: ChartPieIcon },
@@ -42,58 +42,58 @@ const navigation = () => {
     const Login = () => {
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider)
-          .then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            const user = result.user;
-            setUser(user);
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            const email = error.email;
-            const credential = GoogleAuthProvider.credentialFromError(error);
-          });
-      };
-      const Logout = () => {
+            .then((result) => {
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                const user = result.user;
+                setUser(user);
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                const email = error.email;
+                const credential = GoogleAuthProvider.credentialFromError(error);
+            });
+    };
+    const Logout = () => {
         signOut(auth)
-          .then(() => {
-            setUser(null);
-            window.location.reload();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      };
-    
-      useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            setUser(user);
-            setLoading(false);
-          }else{
-            setUser(null);
-            setLoading(false);
-          }
-        });
-      }, []);
-    
+            .then(() => {
+                setUser(null);
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
     useEffect(() => {
-        const handleScroll = () => {
-            console.log(window.scrollY);
-            if (window.scrollY >= TOP_OFFSET) {
-                setShowBackground(true);
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUser(user);
+                setLoading(false);
             } else {
-                setShowBackground(false);
+                setUser(null);
+                setLoading(false);
             }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
+        });
     }, []);
+
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //         console.log(window.scrollY);
+    //         if (window.scrollY >= TOP_OFFSET) {
+    //             setShowBackground(true);
+    //         } else {
+    //             setShowBackground(false);
+    //         }
+    //     };
+
+    //     window.addEventListener("scroll", handleScroll);
+
+    //     return () => {
+    //         window.removeEventListener("scroll", handleScroll);
+    //     };
+    // }, []);
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -112,7 +112,7 @@ const navigation = () => {
                             }`}>
                             หน้าหลัก
                         </Link>
-                        <Popover className="relative">
+                        {/* <Popover className="relative">
 
                             <Popover.Button className={`flex items-center gap-x-1 text-md font-normal leading-6  ${showBackground ? "text-white" : ""
                                 }`}>
@@ -153,8 +153,7 @@ const navigation = () => {
 
                                 </Popover.Panel>
                             </Transition>
-                        </Popover>
-
+                        </Popover> */}
                         <Link href="/components/Allcourse" className={`text-md font-normal leading-6  ${showBackground ? "text-white" : ""
                             }`}>
                             รายวิชาทั้งหมด
@@ -163,7 +162,7 @@ const navigation = () => {
                             }`}>
                             รายวิชาของฉัน
                         </Link>
-                        
+
                     </Popover.Group>
                 </div>
                 <div className="flex lg:flex lg:flex-1 lg:justify-end gap-8">
@@ -175,13 +174,13 @@ const navigation = () => {
                         <Menu as="div" className="relative ml-3">
                             <div>
                                 <Menu.Button className="relative flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                <div className='p-2'>
-                                    <Avatar src={user.photoURL} />
-                                </div>
-                                <div className='p-2'>
-                                    <p>{user.displayName}</p>
-                                    <p>{user.email}</p>
-                                </div>
+                                    <div className='p-2'>
+                                        <Avatar src={user.photoURL} />
+                                    </div>
+                                    <div className='p-2'>
+                                        <p>{user.displayName}</p>
+                                        <p>{user.email}</p>
+                                    </div>
                                 </Menu.Button>
                             </div>
                             <Transition
@@ -194,17 +193,17 @@ const navigation = () => {
                                 leaveTo="transform opacity-0 scale-95"
                             >
                                 <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                <Menu.Item>
-                                    {({ active }) => (
-                                    <button
-                                        onClick={Logout}
-                                        className={'block px-4 py-2 text-sm text-gray-700'}
-                                    >
-                                        ออกจากระบบ
-                                    </button>
-                                    )}
-                                </Menu.Item>
-                                
+                                    <Menu.Item>
+                                        {({ active }) => (
+                                            <button
+                                                onClick={Logout}
+                                                className={'block px-4 py-2 text-sm text-gray-700'}
+                                            >
+                                                ออกจากระบบ
+                                            </button>
+                                        )}
+                                    </Menu.Item>
+
                                 </Menu.Items>
                             </Transition>
                         </Menu>
@@ -212,9 +211,9 @@ const navigation = () => {
 
                     <div className="flex lg:hidden">
                         <button
-                            type="button" 
+                            type="button"
                             className={`-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-black ${showBackground ? "text-white" : ""
-                        }`}
+                                }`}
                             onClick={() => setMobileMenuOpen(true)}
                         >
                             <span className="sr-only">Open main menu</span>
@@ -228,7 +227,7 @@ const navigation = () => {
                 <Dialog.Panel className="fixed inset-y-0 right-0 w-full overflow-y-auto bg-white px-6 py-8 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 z-40">
                     <div className="flex items-center justify-between sm:justify-end">
                         <Link href="/" className="flex -m-1.5 p-1.5 sm:invisible sm:hidden">
-                            
+
                             <Image
                                 className="h-10 w-auto"
                                 src={MyLogo}
@@ -237,7 +236,7 @@ const navigation = () => {
                         </Link>
                         <div className='flex flex-row flex-wrap gap-8 sm:-m-1.5 sm:p-1.5 sm:py-3.5'>
 
-                          
+
                             <button
                                 type="button"
                                 className="-m-2.5 rounded-md p-2.5 text-gray-700"
@@ -255,7 +254,7 @@ const navigation = () => {
                                     href="#"
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-normal leading-7 text-gray-900 hover:bg-blue-100"
                                 >
-                                   หน้าหลัก
+                                    หน้าหลัก
                                 </Link>
                                 <Disclosure as="div" className="-mx-3">
                                     {({ open }) => (
@@ -281,9 +280,9 @@ const navigation = () => {
                                     href="#"
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-normal leading-7 text-gray-900 hover:bg-blue-100"
                                 >
-                                   รายวิชาของฉัน
+                                    รายวิชาของฉัน
                                 </Link>
-                              
+
                             </div>
 
                         </div>

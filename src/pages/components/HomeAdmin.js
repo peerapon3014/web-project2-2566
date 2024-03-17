@@ -10,7 +10,7 @@ function HomeAdmin() {
             <div className='bg-white  p-6 py-8 lg:px-32 md:px-8 m-5 rounded-lg h-[60em]'>
 
                 
-                <div class="grid grid-cols-1 gap-12  md:grid-cols-2 lg:grid-cols-3 mt-10">
+                <div className="grid grid-cols-1 gap-12  md:grid-cols-2 lg:grid-cols-3 mt-10">
                     <div className='block max-w-sm p-6 bg-blue-100 border-b-4 border-[#1373BB] rounded-lg shadow '>
                         <p className='text-2xl font-bold tracking-tight text-[#0F75BE] '>รายวิชาทั้งหมด</p>
                         <p className='mb-2 mt-5 text-2xl font-bold tracking-tight text-blue-500'>12</p>
