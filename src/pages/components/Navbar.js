@@ -158,11 +158,19 @@ const navigation = () => {
                             }`}>
                             รายวิชาทั้งหมด
                         </Link>
-                        <Link href="/components/Mycourse" className={`text-md font-normal leading-6  ${showBackground ? "text-white" : ""
-                            }`}>
-                            รายวิชาของฉัน
-                        </Link>
+                        {!user ? null : (
+                            <>
+                                <Link href="/components/Mycourse" className={`text-md font-normal leading-6  ${showBackground ? "text-white" : ""
+                                    }`}>
+                                    รายวิชาของฉัน
+                                </Link>
 
+                                <Link href="/components/Mycourse" className={`text-md font-normal leading-6  ${showBackground ? "text-white" : ""
+                                    }`}>
+                                    เข้าสอบ
+                                </Link>
+                            </>
+                        )}
                     </Popover.Group>
                 </div>
                 <div className="flex lg:flex lg:flex-1 lg:justify-end gap-8">
