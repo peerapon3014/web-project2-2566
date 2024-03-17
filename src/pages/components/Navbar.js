@@ -13,7 +13,13 @@ import {
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import MyLogo from '../images/Logo.png';
-import { UserAuth } from "../context/AuthContext";
+import {
+    onAuthStateChanged,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut,
+  } from "firebase/auth";
+  import { auth } from "../firebase";
 
 const products = [
     { name: 'วิทยาการคอมพิวเตอร์', href: '/components/cs/cscourse', icon: ChartPieIcon },
@@ -30,24 +36,47 @@ const navigation = () => {
     const [showBackground, setShowBackground] = useState(false);
     //logo scroll when active
     const [navbarLogo, setNavbarLogo] = useState(MyLogo)
-    const { user, googleSignIn, logOut } = UserAuth();
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const handleSignIn = async () => {
-        try {
-          await googleSignIn();
-        } catch (error) {
-          console.log(error);
-        }
-    };
+    const Login = () => {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            const user = result.user;
+            setUser(user);
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            const email = error.email;
+            const credential = GoogleAuthProvider.credentialFromError(error);
+          });
+      };
+      const Logout = () => {
+        signOut(auth)
+          .then(() => {
+            setUser(null);
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
     
-    const handleSignOut = async () => {
-        try {
-          await logOut();
-        } catch (error) {
-          console.log(error);
-        }
-    };
+      useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            setUser(user);
+            setLoading(false);
+          }else{
+            setUser(null);
+            setLoading(false);
+          }
+        });
+      }, []);
     
     useEffect(() => {
         const handleScroll = () => {
@@ -65,14 +94,6 @@ const navigation = () => {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
-
-    useEffect(() => {
-        const checkAuthentication = async () => {
-            await new Promise((resolve) => setTimeout(resolve, 50));
-            setLoading(false);
-          };
-          checkAuthentication();
-    }, [user]);
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -142,35 +163,51 @@ const navigation = () => {
                             }`}>
                             รายวิชาของฉัน
                         </Link>
-                        {!user ? null : (
-                        <Link href="/components/Sidebar" className={`text-md font-normal leading-6  ${showBackground ? "text-white" : ""
-                            }`}>
-                            สำหรับอาจารย์
-                        </Link>
-                        )}
                         
                     </Popover.Group>
                 </div>
                 <div className="flex lg:flex lg:flex-1 lg:justify-end gap-8">
                     {loading ? null : !user ? (
-                        <button className={`flex md:flex lg:flex text-md font-normal leading-6 text-gray-900 ${showBackground ? "text-white" : ""}`} onClick={handleSignIn}>
+                        <button className={`flex md:flex lg:flex text-md font-normal leading-6 text-gray-900 ${showBackground ? "text-white" : ""}`} onClick={Login}>
                             login
                         </button>
                     ) : (
-                        <>
-                            <div className='p-2'>
-                                <Avatar src={user.photoURL} />
-                            </div>
+                        <Menu as="div" className="relative ml-3">
                             <div>
-                                <p>{user.displayName}</p>
-                                <p>{user.email}</p>
+                                <Menu.Button className="relative flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                <div className='p-2'>
+                                    <Avatar src={user.photoURL} />
+                                </div>
+                                <div className='p-2'>
+                                    <p>{user.displayName}</p>
+                                    <p>{user.email}</p>
+                                </div>
+                                </Menu.Button>
                             </div>
-                            <div>
-                                <button className={`flex md:flex lg:flex text-md font-normal leading-6 text-gray-900 ${showBackground ? "text-white" : ""}`} onClick={handleSignOut}>
-                                    Sign out
-                                </button>
-                            </div>
-                        </>
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-100"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <Menu.Item>
+                                    {({ active }) => (
+                                    <button
+                                        onClick={Logout}
+                                        className={'block px-4 py-2 text-sm text-gray-700'}
+                                    >
+                                        ออกจากระบบ
+                                    </button>
+                                    )}
+                                </Menu.Item>
+                                
+                                </Menu.Items>
+                            </Transition>
+                        </Menu>
                     )}
 
                     <div className="flex lg:hidden">
