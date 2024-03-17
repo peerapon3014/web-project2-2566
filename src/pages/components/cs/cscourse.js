@@ -79,7 +79,7 @@ function cscourse() {
                         </div>
                     </div> <MyFooter />
                 </>
-            ) : isStdORTc === "student" && (
+            ) : isStdORTc === "unknown" && (
                 <>
                     <MyNav />
                     <div className=''>
