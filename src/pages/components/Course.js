@@ -41,7 +41,7 @@ export default function Coursedetail() {
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
             setIsStdORTc("teacher")
-            return;
+            window.location.assign("/components/Sidebar");
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);

@@ -19,7 +19,8 @@ import {
     signInWithPopup,
     signOut,
 } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from '../firebase'
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 const products = [
     { name: 'วิทยาการคอมพิวเตอร์', href: '/components/cs/cscourse', icon: ChartPieIcon },
@@ -38,6 +39,7 @@ const navigation = () => {
     const [navbarLogo, setNavbarLogo] = useState(MyLogo)
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isStdORTc, setIsStdORTc] = useState(null)
 
     const Login = () => {
         const provider = new GoogleAuthProvider();
@@ -77,6 +79,38 @@ const navigation = () => {
             }
         });
     }, []);
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                let q = query(collection(db, "students"), where("email", "==", user.email));
+                getDocs(q).then((querySnapshot) => {
+                    if (querySnapshot.size > 0) {
+                        setIsStdORTc("student")
+                        return;
+                    }
+                }).catch((error) => {
+                    console.log("Error getting documents: ", error);
+                });
+                q = query(collection(db, "teachers"), where("email", "==", user.email));
+                getDocs(q).then((querySnapshot) => {
+                    if (querySnapshot.size > 0) {
+                        setIsStdORTc("teacher")
+                        return;
+                    }
+                }).catch((error) => {
+                    console.log("Error getting documents: ", error);
+                });
+                // if(user.email.split("@")[1] == "kkumail.com"){
+                //   setIsStdORTc("student")
+                //   return;
+                // }
+                // setIsStdORTc("unknown")
+            } else {
+                setIsStdORTc("unknown")
+            }
+        });
+    }, [])
 
     // useEffect(() => {
     //     const handleScroll = () => {
@@ -158,18 +192,17 @@ const navigation = () => {
                             }`}>
                             รายวิชาทั้งหมด
                         </Link>
+                        {isStdORTc === "student" && (
+                            <Link href="/components/Mycourse" className={`text-md font-normal leading-6  ${showBackground ? "text-white" : ""
+                                }`}>
+                                รายวิชาของฉัน
+                            </Link>
+                        )}
                         {!user ? null : (
-                            <>
-                                <Link href="/components/Mycourse" className={`text-md font-normal leading-6  ${showBackground ? "text-white" : ""
-                                    }`}>
-                                    รายวิชาของฉัน
-                                </Link>
-
-                                <Link href="/components/Mycourse" className={`text-md font-normal leading-6  ${showBackground ? "text-white" : ""
-                                    }`}>
-                                    เข้าสอบ
-                                </Link>
-                            </>
+                            <Link href="/components/Mycourse" className={`text-md font-normal leading-6  ${showBackground ? "text-white" : ""
+                                }`}>
+                                เข้าสอบ
+                            </Link>
                         )}
                     </Popover.Group>
                 </div>

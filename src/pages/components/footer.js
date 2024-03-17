@@ -10,7 +10,7 @@ import {
 
 export default function footer() {
     return (
-        <footer className="fixed bottom-0 w-full bg-[#0976BC] text-white text-center py-4">
+        <footer className="shadow-sm z-50 font-mtsans bg-[#0976BC]">
             <div className="mx-auto w-full max-w-screen-xl pt-6 lg:pt-8 px-4">
                 <div className='md:flex md:items-center md:justify-between md:p-2 '>
                     <ul className="flex flex-wrap items-center justify-center gap-2 text-sm font-normal text-white sm:mt-0 pb-2 pt-2.5">
@@ -26,9 +26,7 @@ export default function footer() {
                         <li>
                             <Link href="#" className="hover:underline">คู่มือการใช้งาน</Link>
                         </li>
-
                     </ul>
-
                     <span className="flex md:mt-0 sm:mt-2 w-full sm:w-auto text-sm text-white sm:text-center justify-center pb-2 pt-2.5"> College of Computing Khon Kaen University </span>
                 </div>
             </div>

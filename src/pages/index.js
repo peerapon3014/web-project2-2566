@@ -32,7 +32,7 @@ export default function Home() {
         getDocs(q).then((querySnapshot) => {
           if(querySnapshot.size > 0){
             setIsStdORTc("teacher")
-            return;
+            window.location.assign("/components/Sidebar");
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);
@@ -41,14 +41,16 @@ export default function Home() {
         //   setIsStdORTc("student")
         //   return;
         // }
-        // setIsStdORTc("unknown")
+      }else{
+        setIsStdORTc("unknown")
+        return;
       }
     });
   }, [])
   return (
     <main className=' font-mtsans overflow-hidden'>
       <div>
-        {isStdORTc === "student" ? <Homepage/> : isStdORTc === "teacher" ? <Homeadmin/> : <Homepage/>}
+        {isStdORTc === "student" ? <Homepage/>: isStdORTc === "unknown" && <Homepage/>}
       </div>
       {/* <Homepage/> */}
     

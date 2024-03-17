@@ -5,7 +5,7 @@ import EN from '@/pages/images/Software-engineer.png'
 import WebS from "@/pages/images/Web_Services.jpeg"
 import Java from "@/pages/images/Java.png"
 import Com from "@/pages/images/Computational.png"
-
+import Link from 'next/link';
 
 import React from 'react'
 
@@ -32,13 +32,27 @@ function cards() {
             <div className='rounded-xl overflow-hidden'>
               <img className=' ' src={Java.src} alt="En" />
             </div>
-            <h4 className='text-xl font-bold mt-3'>322371 Programming in java</h4>
+            <h4 className='text-xl font-bold mt-3'>CP352203 Computer Game Development</h4>
             <p className='text-sm leading-7 my-3  '>วิทยาการคอมพิวเตอร์ ปริญญาตรี ภาคต้น</p>
             <button className='p-8 bg-[#1373BB] text-white py-2 rounded-lg  mt-4 hover:bg-blue-300 focus:scale-95 transition-all duration-200 ease-out'>
               ดูเพิ่มเติม
             </button>
           </div>
         </div>
+        <Link href='/components/Course' className='card bg-white group-hover:blur-sm shadow-xl shadow-blue-100/50  hover:!blur-none group-hover:scale-[0.9] hover:!scale-100 cursor-pointer'>
+          <div className='card bg-white group-hover:blur-sm shadow-xl shadow-blue-100/50  hover:!blur-none group-hover:scale-[0.9] hover:!scale-100 cursor-pointer'>
+            <div className='p-5 flex flex-col'>
+              <div className='rounded-xl overflow-hidden'>
+                <img className=' ' src={EN.src} alt="En" />
+              </div>
+              <h4 className='text-xl font-bold mt-3'>SC362202 Mobile and Web Application Development</h4>
+              <p className='text-sm leading-7 my-3  '>เทคโนโลยีสารสนเทศ ปริญญาตรี ภาคปลาย</p>
+              <button className='p-8 bg-[#1373BB] text-white py-2 rounded-lg  mt-4 hover:bg-blue-300 focus:scale-95 transition-all duration-200 ease-out'>
+                ดูเพิ่มเติม
+              </button>
+            </div>
+          </div>
+        </Link>
         {/* <div className='card bg-white group-hover:blur-sm shadow-xl shadow-blue-100/50  hover:!blur-none group-hover:scale-[0.9] hover:!scale-100 cursor-pointer'>
           <div className='p-5 flex flex-col'>
             <div className='rounded-xl overflow-hidden'>

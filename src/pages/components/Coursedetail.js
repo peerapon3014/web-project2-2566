@@ -32,7 +32,7 @@ export default function Coursedetail() {
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
             setIsStdORTc("teacher")
-            return;
+            window.location.assign("/components/Sidebar");
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);
@@ -44,14 +44,15 @@ export default function Coursedetail() {
         // setIsStdORTc("unknown")
       } else {
         setIsStdORTc("unknown")
-        window.location.assign("/")
+        window.location.assign("/");
       }
     });
   }, [])
   return (
     <>
-      {isStdORTc === "student" ? (
+      {isStdORTc === "student" && (
         <>
+
           <MyNav />
           <div className="p-6 py-8 lg:px-32 md:px-8 p-6 py-8 lg:px-32 md:px-8 mt- inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),white)]">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -97,9 +98,10 @@ export default function Coursedetail() {
               </div>
 
             </div>
-          </div><MyFooter />
+          </div>
+          <MyFooter />
         </>
-      ) : isStdORTc === "teacher" ? <Homeadmin /> : <Homepage />}
+      )}
     </>
   )
 }

@@ -51,7 +51,7 @@ export default function Coursedetail() {
   }, [])
   return (
     <>
-      {isStdORTc === "student" ? (
+      {isStdORTc === "student" && (
         <>
           <MyNav />
           <div className="p-6 py-8 lg:px-32 md:px-8 p-6 py-8 lg:px-32 md:px-8 mt- inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),white)]">
@@ -112,7 +112,7 @@ export default function Coursedetail() {
             </div>
           </div><MyFooter />
         </>
-      ) : isStdORTc === "teacher" ? <Homeadmin /> : <Homepage />}
+      )}
     </>
   )
 }

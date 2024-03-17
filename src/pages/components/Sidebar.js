@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ChevronDoubleLeftIcon,HomeIcon ,ArchiveBoxXMarkIcon,PencilSquareIcon,DocumentPlusIcon,ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
+import { ChevronDoubleLeftIcon, HomeIcon, ArchiveBoxXMarkIcon, PencilSquareIcon, DocumentPlusIcon, ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import HomeAdmin from './HomeAdmin';
 import Link from 'next/link';
 import {
@@ -9,7 +9,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth, db } from '../firebase'
-import { collection, query, where, getDocs} from "firebase/firestore"; 
+import { collection, query, where, getDocs } from "firebase/firestore";
 import Homepage from "@/pages/components/Homepage";
 
 const SidebarContext = () => {
@@ -35,7 +35,7 @@ const SidebarContext = () => {
       if (user) {
         setUser(user);
         setLoading(false);
-      }else{
+      } else {
         setUser(null);
         setLoading(false);
       }
@@ -47,7 +47,7 @@ const SidebarContext = () => {
       if (user) {
         let q = query(collection(db, "students"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
-          if(querySnapshot.size > 0){
+          if (querySnapshot.size > 0) {
             setIsStdORTc("student")
             window.location.assign("/");
           }
@@ -56,15 +56,15 @@ const SidebarContext = () => {
         });
         q = query(collection(db, "teachers"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
-          if(querySnapshot.size > 0){
+          if (querySnapshot.size > 0) {
             setIsStdORTc("teacher")
             return;
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);
         });
-        
-      }else{
+
+      } else {
         setIsStdORTc("unknown")
         window.location.assign("/");
       }
@@ -73,11 +73,7 @@ const SidebarContext = () => {
 
   return (
     <>
-      {isStdORTc === "student" ? (
-        <div className="min-h-dvh flex items-center justify-center">
-            <h1>404 Page Not Found</h1>
-        </div>
-      ) : isStdORTc === "teacher" ? (
+      {isStdORTc === "teacher" && (
         <div className='flex bg-[#0F75BE] '>
           <div className={`${open ? "w-72" : "w-20 "
             } bg-[#1373BB] h-screen p-5  pt-8 relative duration-300`}>
@@ -121,7 +117,7 @@ const SidebarContext = () => {
                 <li
                   className={"flex hover:bg-blue-400  p-2  cursor-pointer  rounded-md   text-white text-sm items-center gap-x-4 "}
                 >
-                  <DocumentPlusIcon  className="h-8 w-8 text-gray-200" />
+                  <DocumentPlusIcon className="h-8 w-8 text-gray-200" />
                   {/* <img
                     src={MyYoshi.src}
                     className={`cursor-pointer rounded-full w-10 duration-500  ${open && "rotate-[360deg]  "
@@ -179,18 +175,12 @@ const SidebarContext = () => {
               </button>
             </ul>
           </div>
-
           <div className=' flex-1 '>
             <HomeAdmin />
           </div>
         </div>
-      ) : (
-      <div className="min-h-dvh flex items-center justify-center">
-        <h1>404 Page Not Found</h1>
-      </div>)}
-
+      )}
     </>
-
   )
 }
 

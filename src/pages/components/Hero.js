@@ -1,4 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from "react";
+import { auth, db } from '../firebase'
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, ArrowLongRightIcon, CodeBracketSquareIcon, QrCodeIcon, GlobeAsiaAustraliaIcon } from '@heroicons/react/24/outline'
 import BgHero from '../images/cover.png';
@@ -6,6 +9,39 @@ import { TypeAnimation } from 'react-type-animation';
 import Link from 'next/link';
 
 export default function Hero() {
+  const [isStdORTc, setIsStdORTc] = useState(null)
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        let q = query(collection(db, "students"), where("email", "==", user.email));
+        getDocs(q).then((querySnapshot) => {
+          if (querySnapshot.size > 0) {
+            setIsStdORTc("student")
+            return;
+          }
+        }).catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+        q = query(collection(db, "teachers"), where("email", "==", user.email));
+        getDocs(q).then((querySnapshot) => {
+          if (querySnapshot.size > 0) {
+            setIsStdORTc("teacher")
+            window.location.assign("/components/Sidebar");
+          }
+        }).catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+        // if(user.email.split("@")[1] == "kkumail.com"){
+        //   setIsStdORTc("student")
+        //   return;
+        // }
+        // setIsStdORTc("unknown")
+      } else {
+        setIsStdORTc("unknown")
+      }
+    });
+  }, [])
   return (
     <>
       <div className="hero h-96 md:h-[40em]  flex justify-start " style={{ backgroundImage: `url(${BgHero.src})` }}>
@@ -39,16 +75,18 @@ export default function Hero() {
                 repeat={Infinity}
               />
             </p>
-            <Link href="/components/Allcourse">
-              <button className="btn btn-white">
-                เริ่มเรียน
-                <ArrowLongRightIcon className="h-6 w-6 text-gray-500" />
-              </button>
-            </Link>
+            {isStdORTc === "student" && (
+              <Link href="/components/Allcourse">
+                <button className="btn btn-white">
+                  เริ่มเรียน
+                  <ArrowLongRightIcon className="h-6 w-6 text-gray-500" />
+                </button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
-      {/* <div className='mt-[-4em] ml-24  '>
+      <div className='mt-[-4em] ml-24  '>
         <div className="grid grid-cols-3 gap-8 p-6 lg:px-32 md:px-8 ">
           <Link href="/components/cs/cscourse" className="flex px-8 p-4 flex-col items-center bg-white  cursor-pointer hover:-translate-y-1 hover:shadow-2xl border h-20 border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-200 ">
             <QrCodeIcon className="object-cover w-auto  h-10 md:h-10 md:w-auto text-[#1373BB]" />
@@ -69,7 +107,7 @@ export default function Hero() {
             </div>
           </Link>
         </div>
-      </div> */}
+      </div>
     </>
   )
 }

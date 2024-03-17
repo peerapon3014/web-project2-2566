@@ -30,7 +30,7 @@ function Cscourse() {
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
             setIsStdORTc("teacher")
-            return;
+            window.location.assign("/components/Sidebar");
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);
@@ -48,7 +48,7 @@ function Cscourse() {
   }, [])
   return (
     <>
-      {isStdORTc === "student" ? (
+      {isStdORTc === "student" && (
         <>
           <MyNav />
           <div className="relative isolate overflow-hidden p-6 py-8 lg:px-32 md:px-8 mb-0 ">
@@ -197,7 +197,7 @@ function Cscourse() {
           </div>
           <MyFooter />
         </>
-      ) : isStdORTc === "teacher" ? <Homeadmin /> : <Homepage />}
+      )}
 
 
     </>
