@@ -56,7 +56,7 @@ function HomeAdmin() {
                     </div>
                     {/* {checkData.map((check) => ( */}
                     <div  className='mt-10 grid grid-cols-1 gap-12  md:grid-cols-2 lg:grid-cols-3 '>
-                        <Link  href="/components/CheckDetail"><Cards /></Link>
+                        <Link  href="/components/CheckDetail"><CardCheck /></Link>
                     </div>
                     {/* ))} */}
                 </div>
