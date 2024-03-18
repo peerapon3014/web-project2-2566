@@ -7,14 +7,13 @@ import { Inter } from "next/font/google";
 import Homepage from "@/pages/components/Homepage";
 import Homeadmin from "@/pages/components/Sidebar";
 import NotFound from "@/pages/components/NotFound";
-import NotLogin from "@/pages/components/NotLogin";
 import Sidebar from "./components/Sidebar";
 import MyNav from '@/pages/components/Navbar' 
 
 // import Course from "./components/Course"
 
 export default function Home() {
-  const [isStdORTc, setIsStdORTc] = useState(null)
+  const [isRole, setIsRole] = useState(null)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -22,7 +21,7 @@ export default function Home() {
         let q = query(collection(db, "students"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
           if(querySnapshot.size > 0){
-            setIsStdORTc("student")
+            setIsRole("student")
             return;
           }
         }).catch((error) => {
@@ -31,26 +30,24 @@ export default function Home() {
         q = query(collection(db, "teachers"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
           if(querySnapshot.size > 0){
-            setIsStdORTc("teacher")
+            setIsRole("teacher")
             window.location.assign("/components/Sidebar");
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);
         });
         // if(user.email.split("@")[1] == "kkumail.com"){
-        //   setIsStdORTc("student")
+        //   setIsRole("student")
         //   return;
         // }
-      }else{
-        setIsStdORTc("unknown")
-        return;
+        setIsRole("unknown")
       }
     });
   }, [])
   return (
     <main className=' font-mtsans overflow-hidden'>
       <div>
-        {isStdORTc === "student" ? <Homepage/>: isStdORTc === "unknown" && <Homepage/>}
+        {isRole === "student" ? <Homepage/>: <Homepage/>}
       </div>
       {/* <Homepage/> */}
     

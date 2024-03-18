@@ -11,7 +11,7 @@ import MyNav from '@/pages/components/Navbar'
 import MyFooter from '@/pages/components/footer'
 
 function Allcourse() {
-    const [isStdORTc, setIsStdORTc] = useState(null)
+    const [isRole, setIsRole] = useState(null)
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -19,7 +19,7 @@ function Allcourse() {
                 let q = query(collection(db, "students"), where("email", "==", user.email));
                 getDocs(q).then((querySnapshot) => {
                     if (querySnapshot.size > 0) {
-                        setIsStdORTc("student")
+                        setIsRole("student")
                         return;
                     }
                 }).catch((error) => {
@@ -28,25 +28,23 @@ function Allcourse() {
                 q = query(collection(db, "teachers"), where("email", "==", user.email));
                 getDocs(q).then((querySnapshot) => {
                     if (querySnapshot.size > 0) {
-                        setIsStdORTc("teacher")
+                        setIsRole("teacher")
                         window.location.assign("/components/Sidebar");
                     }
                 }).catch((error) => {
                     console.log("Error getting documents: ", error);
                 });
                 // if(user.email.split("@")[1] == "kkumail.com"){
-                //   setIsStdORTc("student")
+                //   setIsRole("student")
                 //   return;
                 // }
-                // setIsStdORTc("unknown")
-            } else {
-                setIsStdORTc("unknown")
+                setIsRole("unknown")
             }
         });
     }, [])
     return (
         <>
-            {isStdORTc === "student" ? (
+            {isRole === "student" ? (
                 <>
                     <MyNav />
                     <div className="relative isolate overflow-hidden bg-white p-6 py-8 lg:px-32 md:px-8 ">
@@ -61,7 +59,7 @@ function Allcourse() {
                         </div>
                     </div><MyFooter />
                 </>
-            ) : isStdORTc === "unknown" && (
+            ) : (
                 <>
                     <MyNav />
                     <div className="relative isolate overflow-hidden bg-white p-6 py-8 lg:px-32 md:px-8 ">

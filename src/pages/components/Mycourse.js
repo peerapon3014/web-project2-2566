@@ -10,9 +10,10 @@ import MyNav from '@/pages/components/Navbar'
 import MyFooter from '@/pages/components/footer'
 import Homepage from "@/pages/components/Homepage";
 import Homeadmin from "@/pages/components/Sidebar";
+import NotFound from '@/pages/components/NotFound'
 
 function Cscourse() {
-  const [isStdORTc, setIsStdORTc] = useState(null)
+  const [isRole, setIsRole] = useState(null)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -20,7 +21,7 @@ function Cscourse() {
         let q = query(collection(db, "students"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
-            setIsStdORTc("student")
+            setIsRole("student")
             return;
           }
         }).catch((error) => {
@@ -29,26 +30,23 @@ function Cscourse() {
         q = query(collection(db, "teachers"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
-            setIsStdORTc("teacher")
+            setIsRole("teacher")
             window.location.assign("/components/Sidebar");
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);
         });
         // if(user.email.split("@")[1] == "kkumail.com"){
-        //   setIsStdORTc("student")
+        //   setIsRole("student")
         //   return;
         // }
-        // setIsStdORTc("unknown")
-      } else {
-        setIsStdORTc("unknown")
-        window.location.assign("/")
-      }
+        setIsRole("unknown")
+      } 
     });
   }, [])
   return (
     <>
-      {isStdORTc === "student" && (
+      {isRole === "student" ? (
         <>
           <MyNav />
           <div className="relative isolate overflow-hidden p-6 py-8 lg:px-32 md:px-8 mb-0 ">
@@ -197,9 +195,7 @@ function Cscourse() {
           </div>
           <MyFooter />
         </>
-      )}
-
-
+      ):isRole === "unknown" && <NotFound/>}
     </>
   )
 }

@@ -39,7 +39,7 @@ const navigation = () => {
     const [navbarLogo, setNavbarLogo] = useState(MyLogo)
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [isStdORTc, setIsStdORTc] = useState(null)
+    const [isRole, setIsRole] = useState(null)
 
     const Login = () => {
         const provider = new GoogleAuthProvider();
@@ -86,7 +86,7 @@ const navigation = () => {
                 let q = query(collection(db, "students"), where("email", "==", user.email));
                 getDocs(q).then((querySnapshot) => {
                     if (querySnapshot.size > 0) {
-                        setIsStdORTc("student")
+                        setIsRole("student")
                         return;
                     }
                 }).catch((error) => {
@@ -95,19 +95,17 @@ const navigation = () => {
                 q = query(collection(db, "teachers"), where("email", "==", user.email));
                 getDocs(q).then((querySnapshot) => {
                     if (querySnapshot.size > 0) {
-                        setIsStdORTc("teacher")
+                        setIsRole("teacher")
                         return;
                     }
                 }).catch((error) => {
                     console.log("Error getting documents: ", error);
                 });
                 // if(user.email.split("@")[1] == "kkumail.com"){
-                //   setIsStdORTc("student")
+                //   setIsRole("student")
                 //   return;
                 // }
-                // setIsStdORTc("unknown")
-            } else {
-                setIsStdORTc("unknown")
+                setIsRole("unknown")
             }
         });
     }, [])
@@ -192,16 +190,10 @@ const navigation = () => {
                             }`}>
                             รายวิชาทั้งหมด
                         </Link>
-                        {isStdORTc === "student" && (
+                        {isRole === "student" && (
                             <Link href="/components/Mycourse" className={`text-md font-normal leading-6  ${showBackground ? "text-white" : ""
                                 }`}>
                                 รายวิชาของฉัน
-                            </Link>
-                        )}
-                        {!user ? null : (
-                            <Link href="/components/Mycourse" className={`text-md font-normal leading-6  ${showBackground ? "text-white" : ""
-                                }`}>
-                                เข้าสอบ
                             </Link>
                         )}
                     </Popover.Group>

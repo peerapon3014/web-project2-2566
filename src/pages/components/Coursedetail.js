@@ -12,9 +12,10 @@ import MyNav from '@/pages/components/Navbar'
 import MyFooter from '@/pages/components/footer'
 import Homepage from "@/pages/components/Homepage";
 import Homeadmin from "@/pages/components/Sidebar";
+import NotFound from '@/pages/components/NotFound'
 
 export default function Coursedetail() {
-  const [isStdORTc, setIsStdORTc] = useState(null)
+  const [isRole, setIsRole] = useState(null)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -22,7 +23,7 @@ export default function Coursedetail() {
         let q = query(collection(db, "students"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
-            setIsStdORTc("student")
+            setIsRole("student")
             return;
           }
         }).catch((error) => {
@@ -31,28 +32,24 @@ export default function Coursedetail() {
         q = query(collection(db, "teachers"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
-            setIsStdORTc("teacher")
+            setIsRole("teacher")
             window.location.assign("/components/Sidebar");
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);
         });
         // if(user.email.split("@")[1] == "kkumail.com"){
-        //   setIsStdORTc("student")
+        //   setIsRole("student")
         //   return;
         // }
-        // setIsStdORTc("unknown")
-      } else {
-        setIsStdORTc("unknown")
-        window.location.assign("/");
+        setIsRole("unknown")
       }
     });
   }, [])
   return (
     <>
-      {isStdORTc === "student" && (
+      {isRole === "student" ? (
         <>
-
           <MyNav />
           <div className="p-6 py-8 lg:px-32 md:px-8 p-6 py-8 lg:px-32 md:px-8 mt- inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),white)]">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -101,7 +98,7 @@ export default function Coursedetail() {
           </div>
           <MyFooter />
         </>
-      )}
+      ):isRole === "unknown" && <NotFound/>}
     </>
   )
 }

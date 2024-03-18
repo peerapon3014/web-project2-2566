@@ -12,7 +12,7 @@ import Cards from './itcard'
 import MyNav from '@/pages/components/Navbar'
 import MyFooter from '@/pages/components/footer'
 function cscourse() {
-    const [isStdORTc, setIsStdORTc] = useState(null)
+    const [isRole, setIsRole] = useState(null)
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -20,7 +20,7 @@ function cscourse() {
                 let q = query(collection(db, "students"), where("email", "==", user.email));
                 getDocs(q).then((querySnapshot) => {
                     if (querySnapshot.size > 0) {
-                        setIsStdORTc("student")
+                        setIsRole("student")
                         return;
                     }
                 }).catch((error) => {
@@ -29,25 +29,23 @@ function cscourse() {
                 q = query(collection(db, "teachers"), where("email", "==", user.email));
                 getDocs(q).then((querySnapshot) => {
                     if (querySnapshot.size > 0) {
-                        setIsStdORTc("teacher")
+                        setIsRole("teacher")
                         window.location.assign("/components/Sidebar");
                     }
                 }).catch((error) => {
                     console.log("Error getting documents: ", error);
                 });
                 // if(user.email.split("@")[1] == "kkumail.com"){
-                //   setIsStdORTc("student")
+                //   setIsRole("student")
                 //   return;
                 // }
-                // setIsStdORTc("unknown")
-            } else {
-                setIsStdORTc("unknown")
+                setIsRole("unknown")
             }
         });
     }, [])
     return (
         <>
-            {isStdORTc === "student" ? (
+            {isRole === "student" ? (
                 <>
                     <MyNav />
                     <div className=''>
@@ -78,7 +76,7 @@ function cscourse() {
                         </div>
                     </div> <MyFooter />
                 </>
-            ) : isStdORTc === "unknown" && (
+            ) : (
                 <>
                     <MyNav />
                     <div className=''>

@@ -16,7 +16,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default function Home() {
-  const [isStdORTc, setIsStdORTc] = useState(null)
+  const [isRole, setIsRole] = useState(null)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -24,7 +24,7 @@ export default function Home() {
         let q = query(collection(db, "students"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
-            setIsStdORTc("student")
+            setIsRole("student")
             return;
           }
         }).catch((error) => {
@@ -33,19 +33,17 @@ export default function Home() {
         q = query(collection(db, "teachers"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
-            setIsStdORTc("teacher")
+            setIsRole("teacher")
             window.location.assign("/components/Sidebar");
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);
         });
         // if(user.email.split("@")[1] == "kkumail.com"){
-        //   setIsStdORTc("student")
+        //   setIsRole("student")
         //   return;
         // }
-        // setIsStdORTc("unknown")
-      } else {
-        setIsStdORTc("unknown")
+        setIsRole("unknown")
       }
     });
   }, [])
@@ -58,7 +56,7 @@ export default function Home() {
           <Hero />
         </div>
         <div className='p-6 py-8 lg:px-32 md:px-8 mt- inset-0 -z-10'>
-          {isStdORTc === "student" && (
+          {isRole === "student" && (
             <div>
               <p className='mt-20 mb-10 text-3xl font-bold text-[#1373BB]'>รายวิชาเรียนล่าสุด </p>
               <Cards />

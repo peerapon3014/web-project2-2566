@@ -9,7 +9,7 @@ import { TypeAnimation } from 'react-type-animation';
 import Link from 'next/link';
 
 export default function Hero() {
-  const [isStdORTc, setIsStdORTc] = useState(null)
+  const [isRole, setIsRole] = useState(null)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -17,7 +17,7 @@ export default function Hero() {
         let q = query(collection(db, "students"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
-            setIsStdORTc("student")
+            setIsRole("student")
             return;
           }
         }).catch((error) => {
@@ -26,19 +26,17 @@ export default function Hero() {
         q = query(collection(db, "teachers"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
-            setIsStdORTc("teacher")
+            setIsRole("teacher")
             window.location.assign("/components/Sidebar");
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);
         });
         // if(user.email.split("@")[1] == "kkumail.com"){
-        //   setIsStdORTc("student")
+        //   setIsRole("student")
         //   return;
         // }
-        // setIsStdORTc("unknown")
-      } else {
-        setIsStdORTc("unknown")
+        setIsRole("unknown")
       }
     });
   }, [])
@@ -75,7 +73,7 @@ export default function Hero() {
                 repeat={Infinity}
               />
             </p>
-            {isStdORTc === "student" && (
+            {isRole === "student" && (
               <Link href="/components/Allcourse">
                 <button className="btn btn-white">
                   เริ่มเรียน

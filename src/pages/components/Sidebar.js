@@ -16,7 +16,7 @@ const SidebarContext = () => {
   const [open, setOpen] = useState(true);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isStdORTc, setIsStdORTc] = useState(null)
+  const [isRole, setIsRole] = useState(null)
 
 
   const Logout = () => {
@@ -48,7 +48,7 @@ const SidebarContext = () => {
         let q = query(collection(db, "students"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
-            setIsStdORTc("student")
+            setIsRole("student")
             window.location.assign("/");
           }
         }).catch((error) => {
@@ -57,23 +57,24 @@ const SidebarContext = () => {
         q = query(collection(db, "teachers"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
-            setIsStdORTc("teacher")
+            setIsRole("teacher")
             return;
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);
         });
-
-      } else {
-        setIsStdORTc("unknown")
-        window.location.assign("/");
+        // if(user.email.split("@")[1] == "kkumail.com"){
+        //   setIsRole("student")
+        //   return;
+        // }
+        setIsRole("unknown")
       }
     });
   }, [])
 
   return (
     <>
-      {isStdORTc === "teacher" && (
+      {isRole === "teacher" && (
         <div className='flex bg-[#0F75BE] '>
           <div className={`${open ? "w-72" : "w-20 "
             } bg-[#1373BB] h-screen p-5  pt-8 relative duration-300`}>

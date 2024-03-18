@@ -12,7 +12,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import React from 'react'
 
 function cards() {
-  const [isStdORTc, setIsStdORTc] = useState(null)
+  const [isRole, setIsRole] = useState(null)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -20,7 +20,7 @@ function cards() {
         let q = query(collection(db, "students"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
-            setIsStdORTc("student")
+            setIsRole("student")
             return;
           }
         }).catch((error) => {
@@ -29,25 +29,23 @@ function cards() {
         q = query(collection(db, "teachers"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
-            setIsStdORTc("teacher")
+            setIsRole("teacher")
             window.location.assign("/components/Sidebar");
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);
         });
         // if(user.email.split("@")[1] == "kkumail.com"){
-        //   setIsStdORTc("student")
+        //   setIsRole("student")
         //   return;
         // }
-        // setIsStdORTc("unknown")
-      } else {
-        setIsStdORTc("unknown")
+        setIsRole("unknown")
       }
     });
   }, [])
   return (
     <>
-      {isStdORTc === "student" ? (
+      {isRole === "student" ? (
         <div className='flex item-center justify-center  mx-auto gap-20 container group'>
           <div className='grid grid-cols-1 gap-12  md:grid-cols-2 lg:grid-cols-3'>
             <div className='card bg-white group-hover:blur-sm shadow-xl shadow-blue-100/50  hover:!blur-none group-hover:scale-[0.9] hover:!scale-100 cursor-pointer'>
@@ -88,7 +86,7 @@ function cards() {
           </div> */}
           </div>
         </div >
-      ) : isStdORTc === "unknown" && (
+      ) : (
         <div className='flex item-center justify-center  mx-auto gap-20 container group'>
           <div className='grid grid-cols-1 gap-12  md:grid-cols-2 lg:grid-cols-3'>
             <div className='card bg-white group-hover:blur-sm shadow-xl shadow-blue-100/50  hover:!blur-none group-hover:scale-[0.9] hover:!scale-100 cursor-pointer'>
