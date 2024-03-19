@@ -140,7 +140,7 @@ function ShowTeacher() {
                 <div className="fixed z-10 inset-0 overflow-y-auto flex justify-center items-center">
                     <div className="flex items-center justify-center min-h-screen">
                         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                        <div className="relative bg-white w-96 h-96 rounded-lg p-8">
+                        <div className="relative bg-white w-96 h-auto rounded-lg p-8">
                             <div className="flex justify-end">
                                 <button onClick={() => setIsAddDialogOpen(false)}>
                                     <XMarkIcon className="h-6 w-6 text-gray-500" />
@@ -173,7 +173,7 @@ function ShowTeacher() {
                             <div className="mt-6">
                                 <button
                                     onClick={handleAddTeacher}
-                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
+                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm"
                                 >
                                     เพิ่ม
                                 </button>
@@ -185,7 +185,7 @@ function ShowTeacher() {
                 <div className="fixed z-10 inset-0 overflow-y-auto flex justify-center items-center">
                     <div className="flex items-center justify-center min-h-screen">
                         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                        <div className="relative bg-white w-96 h-96 rounded-lg p-8">
+                        <div className="relative bg-white w-96 h-auto rounded-lg p-8">
                             <div className="flex justify-end">
                                 <button onClick={() => setIsEditDialogOpen(false)}>
                                     <XMarkIcon className="h-6 w-6 text-gray-500" />
@@ -218,7 +218,7 @@ function ShowTeacher() {
                             <div className="mt-6">
                                 <button
                                     onClick={handleEditTeacher}
-                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
+                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm"
                                 >
                                     บันทึก
                                 </button>
