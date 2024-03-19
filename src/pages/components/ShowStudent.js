@@ -292,10 +292,7 @@ function ShowStudent() {
                 </div>
             )
             }
-            )
-            }
         </>
-    );
     );
 }
 
