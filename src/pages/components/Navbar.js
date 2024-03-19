@@ -57,15 +57,21 @@ const navigation = () => {
                 const credential = GoogleAuthProvider.credentialFromError(error);
             });
     };
+
     const Logout = () => {
-        signOut(auth)
-            .then(() => {
-                setUser(null);
-                window.location.reload();
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        if (window.confirm('คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบ?')) {
+            signOut(auth)
+                .then(() => {
+                    setUser(null);
+                    router.push('/');
+                    alert('คุณได้ออกจากระบบแล้ว');
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            console.log('ยกเลิกการออกจากระบบ');
+        }
     };
 
     useEffect(() => {
@@ -210,7 +216,7 @@ const navigation = () => {
                                     <div className='p-2'>
                                         <Avatar src={user.photoURL} />
                                     </div>
-                                    <div className='p-2'>
+                                    <div className='p-2 text-left'>
                                         <p>{user.displayName}</p>
                                         <p>{user.email}</p>
                                     </div>
@@ -241,7 +247,6 @@ const navigation = () => {
                             </Transition>
                         </Menu>
                     )}
-
                     <div className="flex lg:hidden">
                         <button
                             type="button"
@@ -315,9 +320,7 @@ const navigation = () => {
                                 >
                                     รายวิชาของฉัน
                                 </Link>
-
                             </div>
-
                         </div>
                     </div>
                 </Dialog.Panel>

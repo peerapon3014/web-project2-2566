@@ -11,9 +11,11 @@ import MyFooter from '@/pages/components/footer'
 import Homepage from "@/pages/components/Homepage";
 import Homeadmin from "@/pages/components/Sidebar";
 import NotFound from '@/pages/components/NotFound'
+import { useRouter } from 'next/router';
 
 function Cscourse() {
   const [isRole, setIsRole] = useState(null)
+  const router = useRouter();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -40,13 +42,16 @@ function Cscourse() {
         //   setIsRole("student")
         //   return;
         // }
+        // setIsRole("unknown")
+      } else {
         setIsRole("unknown")
-      } 
+        router.push('/');
+      }
     });
   }, [])
   return (
     <>
-      {isRole === "student" ? (
+      {isRole === "student" && (
         <>
           <MyNav />
           <div className="relative isolate overflow-hidden p-6 py-8 lg:px-32 md:px-8 mb-0 ">
@@ -195,7 +200,7 @@ function Cscourse() {
           </div>
           <MyFooter />
         </>
-      ):isRole === "unknown" && <NotFound/>}
+      )}
     </>
   )
 }
