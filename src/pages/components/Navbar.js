@@ -216,7 +216,7 @@ const navigation = () => {
                                     <div className='p-2'>
                                         <Avatar src={user.photoURL} />
                                     </div>
-                                    <div className='p-2'>
+                                    <div className='p-2 text-left'>
                                         <p>{user.displayName}</p>
                                         <p>{user.email}</p>
                                     </div>
