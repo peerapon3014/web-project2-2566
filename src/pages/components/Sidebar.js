@@ -9,6 +9,7 @@ import {
 import { auth, db } from '../firebase'
 import { collection, query, where, getDocs } from "firebase/firestore";
 import Homepage from "@/pages/components/Homepage";
+import ShowCheckIn from "@/pages/components/ShowCheckIn";
 import { useRouter } from 'next/router';
 
 const SidebarContext = () => {
@@ -146,7 +147,7 @@ const SidebarContext = () => {
             </ul>
           </div>
           <div className=' flex-1 '>
-            <HomeAdmin />
+            <ShowCheckIn />
           </div>
         </div>
       )}

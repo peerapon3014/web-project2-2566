@@ -8,7 +8,7 @@ import { auth, db } from '../firebase'
 import { collection, getDocs, addDoc, deleteDoc, updateDoc, doc } from 'firebase/firestore';
 import { XMarkIcon, TrashIcon, PencilSquareIcon  } from "@heroicons/react/24/outline";
 
-function ShowStudent() {
+function ShowCheckIN() {
     const [teachers, setTeachers] = useState([]);
     const [newTeacherName, setNewTeacherName] = useState('');
     const [newTeacherEmail, setNewTeacherEmail] = useState('');
@@ -21,7 +21,7 @@ function ShowStudent() {
     useEffect(() => {
         const fetchTeachers = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, 'students'));
+                const querySnapshot = await getDocs(collection(db, 'checkin'));
                 const teacherList = [];
                 querySnapshot.forEach((doc) => {
                     const teacherData = { id: doc.id, ...doc.data() };
@@ -37,7 +37,7 @@ function ShowStudent() {
 
     const handleAddTeacher = async () => {
         try {
-            const docRef = await addDoc(collection(db, 'students'), {
+            const docRef = await addDoc(collection(db, 'checkin'), {
                 name: newTeacherName,
                 email: newTeacherEmail
             });
@@ -55,7 +55,7 @@ function ShowStudent() {
         const confirmDelete = window.confirm('คุณแน่ใจหรือไม่ที่จะลบนักเรียน?');
         if (confirmDelete) {
             try {
-                await deleteDoc(doc(db, 'students', teacherId));
+                await deleteDoc(doc(db, 'checkin', teacherId));
                 const updatedTeachers = teachers.filter(teacher => teacher.id !== teacherId);
                 setTeachers(updatedTeachers);
             } catch (error) {
@@ -71,14 +71,14 @@ function ShowStudent() {
                 return;
             }
 
-            await updateDoc(doc(db, 'students', selectedTeacher.id), {
-                name: editTeacherName,
-                email: editTeacherEmail
+            await updateDoc(doc(db, 'checkin', selectedTeacher.id), {
+                subject: editTeacherName,
+                room: editTeacherEmail
             });
 
             const updatedTeachers = teachers.map(teacher => {
                 if (teacher.id === selectedTeacher.id) {
-                    return { ...teacher, name: editTeacherName, email: editTeacherEmail };
+                    return { ...teacher, subject: editTeacherName, room: editTeacherEmail };
                 }
                 return teacher;
             });
@@ -93,13 +93,13 @@ function ShowStudent() {
         <>
             <div className='bg-white  p-6 py-8 lg:px-32 md:px-8 m-5 rounded-lg h-[60em]'>
                 <div className='mt-10 text-xl'>
-                    <p className='text-3xl font-bold text-[#1373BB]'>แสดงรายชื่อนักเรียน</p>
+                    <p className='text-3xl font-bold text-[#1373BB]'>แสดงประวัติการเช็คชื่อ</p>
                     <div className='flex justify-end'>
                         <button
                             onClick={() => setIsAddDialogOpen(true)}
                             className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
-                            เพิ่มนักเรึยน
+                            เพิ่มการเช็คชื่อ
                         </button>
                     </div>
                 </div>
@@ -107,21 +107,23 @@ function ShowStudent() {
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">
                             <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ชื่อ</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">อีเมล</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ชื่อวิชา</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">กลุ่มเรียน</th> 
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">วันที่</th> 
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">การดำเนินการ</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {teachers.map((teacher, index) => (
                                 <tr key={index}>
-                                    <td className="px-6 py-4 whitespace-nowrap">{teacher.name}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{teacher.email}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{teacher.subject}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{teacher.room}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{JSON.stringify(teacher.class_date)}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <button onClick={() => {
                                             setSelectedTeacher(teacher);
-                                            setEditTeacherName(teacher.name);
-                                            setEditTeacherEmail(teacher.email);
+                                            setEditTeacherName(teacher.subject);
+                                            setEditTeacherEmail(teacher.room);
                                             setIsEditDialogOpen(true);
                                         }} className="ml-2">
                                             <PencilSquareIcon className="h-6 w-6 text-indigo-600" />
@@ -232,4 +234,4 @@ function ShowStudent() {
     );
 }
 
-export default ShowStudent;
+export default ShowCheckIN;
