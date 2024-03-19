@@ -21,8 +21,8 @@ export default function Coursedetail() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        let q = query(collection(db, "students"), where("email", "==", user.email));
-        getDocs(q).then((querySnapshot) => {
+        let query = query(collection(db, "students"), where("email", "==", user.email));
+        getDocs(query).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
             setIsRole("student")
             return;
@@ -30,8 +30,8 @@ export default function Coursedetail() {
         }).catch((error) => {
           console.log("Error getting documents: ", error);
         });
-        q = query(collection(db, "teachers"), where("email", "==", user.email));
-        getDocs(q).then((querySnapshot) => {
+        query = query(collection(db, "teachers"), where("email", "==", user.email));
+        getDocs(query).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
             setIsRole("teacher")
             return;
@@ -78,7 +78,7 @@ export default function Coursedetail() {
                   </ul>
                   <div className=" text-base font-semibold mt-10 leading-">
                     <div className="w-full bg-gray-200 rounded-full ">
-                      <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full w-[30em]" > 90%</div>
+                      {/* <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full w-[30em]" > 90%</div> */}
                     </div>
                   </div>
                 </div>
@@ -98,11 +98,11 @@ export default function Coursedetail() {
                     เช็คชื่อเข้าเรียน
                   </div>
                 </Link>
-                <Link href='/components/Course'>
+                {/* <Link href='/components/Course'>
                   <div className="flex group cursor-pointer w-4/4 h-16 justify-between  items-center  mt-5 rounded-md bg-[#1373BB] hover:bg-blue-100 hover:shadow-lg text-white pl-10 hover:text-[#1373BB]">
                     ตอบคำถาม
                   </div>
-                </Link>
+                </Link> */}
                 <div className='mb-5 '>
                   <Accordion />
                 </div>

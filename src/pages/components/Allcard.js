@@ -20,8 +20,8 @@ function cards() {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                let q = query(collection(db, "students"), where("email", "==", user.email));
-                getDocs(q).then((querySnapshot) => {
+                let query = query(collection(db, "students"), where("email", "==", user.email));
+                getDocs(query).then((querySnapshot) => {
                     if (querySnapshot.size > 0) {
                         setIsRole("student")
                         return;
@@ -29,8 +29,8 @@ function cards() {
                 }).catch((error) => {
                     console.log("Error getting documents: ", error);
                 });
-                q = query(collection(db, "teachers"), where("email", "==", user.email));
-                getDocs(q).then((querySnapshot) => {
+                query = query(collection(db, "teachers"), where("email", "==", user.email));
+                getDocs(query).then((querySnapshot) => {
                     if (querySnapshot.size > 0) {
                         setIsRole("teacher")
                         window.location.assign("/components/Sidebar");
