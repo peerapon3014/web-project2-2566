@@ -18,8 +18,8 @@ function Cscourse() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        let query = query(collection(db, "students"), where("email", "==", user.email));
-        getDocs(query).then((querySnapshot) => {
+        let q = query(collection(db, "students"), where("email", "==", user.email));
+        getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
             setIsRole("student")
             return;
@@ -27,8 +27,8 @@ function Cscourse() {
         }).catch((error) => {
           console.log("Error getting documents: ", error);
         });
-        query = query(collection(db, "teachers"), where("email", "==", user.email));
-        getDocs(query).then((querySnapshot) => {
+        q = query(collection(db, "teachers"), where("email", "==", user.email));
+        getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
             setIsRole("teacher")
             window.location.assign("/components/Sidebar");
@@ -95,7 +95,7 @@ function Cscourse() {
                       </div>
                       <div className=" text-base font-semibold leading-7">
                         <div className="w-full bg-gray-200 rounded-full ">
-                          {/* <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full w-[17em]" > 90%</div> */}
+                          <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full w-[17em]" > 90%</div>
                         </div>
                       </div>
                     </Link>
