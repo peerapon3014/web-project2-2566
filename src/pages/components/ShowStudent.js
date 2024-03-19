@@ -7,22 +7,7 @@ import Link from 'next/link';
 import { auth, db } from '../firebase'
 import { collection, query, where, getDocs } from "firebase/firestore";
 
-function HomeAdmin() {
-    const [studentCount, setStudentCount] = useState(0);
-
-    useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            let q = query(collection(db, "students"));
-            getDocs(q).then((querySnapshot) => {
-                console.log("จำนวนเอกสารทั้งหมด:", querySnapshot.size);
-                const count = querySnapshot.size;
-                setStudentCount(count);
-            }).catch((error) => {
-                console.log("Error getting documents: ", error);
-            });
-        });
-    }, [])
-
+function ShowStudent() {
     return (
         <>
             <div className='bg-white  p-6 py-8 lg:px-32 md:px-8 m-5 rounded-lg h-[60em]'>
@@ -41,7 +26,7 @@ function HomeAdmin() {
                     </div>
                 </div> */}
                 <div className='mt-10 text-xl'>
-                    <p className='text-3xl font-bold text-[#1373BB]'>ประวัติการเช็คชื่อ</p>
+                    <p className='text-3xl font-bold text-[#1373BB]'>แสดงรายชื่อนักเรียน</p>
                     <div className='flex justify-end'>
                         <Link href="/components/Addcourse">
                             <button className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
@@ -58,12 +43,9 @@ function HomeAdmin() {
                         <Link href="/components/Coursedetail"><Cards /> </Link> */}
                     </div>
                 </div>
-
             </div>
-
         </>
-
     )
 }
 
-export default HomeAdmin
+export default ShowStudent
