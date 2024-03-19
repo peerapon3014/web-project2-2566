@@ -19,7 +19,6 @@ const SidebarContext = () => {
   const router = useRouter();
 
   const Logout = () => {
-    // แสดง dialog ยืนยันก่อนที่จะโลคเอาท์
     if (window.confirm('คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบ?')) {
       signOut(auth)
         .then(() => {
@@ -31,7 +30,6 @@ const SidebarContext = () => {
           console.log(error);
         });
     } else {
-      // กรณีผู้ใช้เลือกยกเลิก
       console.log('ยกเลิกการออกจากระบบ');
     }
   };

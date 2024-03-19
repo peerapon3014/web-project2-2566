@@ -13,9 +13,11 @@ import MyFooter from '@/pages/components/footer'
 import Homepage from "@/pages/components/Homepage";
 import Homeadmin from "@/pages/components/Sidebar";
 import NotFound from '@/pages/components/NotFound'
+import { useRouter } from 'next/router';
 
 export default function Coursedetail() {
   const [isRole, setIsRole] = useState(null)
+  const router = useRouter();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -42,13 +44,16 @@ export default function Coursedetail() {
         //   setIsRole("student")
         //   return;
         // }
+        // setIsRole("unknown")
+      } else {
         setIsRole("unknown")
+        router.push('/');
       }
     });
   }, [])
   return (
     <>
-      {isRole === "student" ? (
+      {isRole === "student" && (
         <>
           <MyNav />
           <div className="p-6 py-8 lg:px-32 md:px-8 p-6 py-8 lg:px-32 md:px-8 mt- inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),white)]">
@@ -98,7 +103,7 @@ export default function Coursedetail() {
           </div>
           <MyFooter />
         </>
-      ):isRole === "unknown" && <NotFound/>}
+      )}
     </>
   )
 }
