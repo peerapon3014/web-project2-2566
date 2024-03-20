@@ -38,7 +38,7 @@ function ShowStudent() {
     const handleAddStudent = async () => {
         try {
             const docRef = await addDoc(collection(db, 'students'), {
-                id: newStudentID,
+                stdid: newStudentID,
                 name: newStudentName,
                 email: newStudentEmail,
                 section: newStudentSection
@@ -59,10 +59,12 @@ function ShowStudent() {
         const confirmDelete = window.confirm('คุณแน่ใจหรือไม่ที่จะลบนักเรียนคนนี้?');
         if (confirmDelete) {
             try {
-                const studentDocRef = doc(db, 'students', studentId);
-                await deleteDoc(studentDocRef);
+                // const studentDocRef = doc(db, 'students', studentId);
+                // await deleteDoc(studentDocRef);
+                await deleteDoc(doc(db, 'students', studentId));
                 const updatedStudents = students.filter(student => student.id !== studentId);
                 setStudents(updatedStudents);
+                console.log('Document Deleted with ID: ', studentId);
             } catch (error) {
                 console.error('Error deleting document: ', error);
             }
@@ -77,7 +79,7 @@ function ShowStudent() {
             }
 
             await updateDoc(doc(db, 'students', selectedStudent.id), {
-                id: editStudentID,
+                stdid: editStudentID,
                 name: editStudentName,
                 email: editStudentEmail,
                 section: editStudentSection
@@ -85,7 +87,12 @@ function ShowStudent() {
 
             const updatedStudents = students.map(student => {
                 if (student.id === selectedStudent.id) {
-                    return { ...student, id: editStudentID, name: editStudentName, email: editStudentEmail, section: editStudentSection };
+                    return {
+                        ...student, stdid: editStudentID,
+                        name: editStudentName,
+                        email: editStudentEmail,
+                        section: editStudentSection
+                    };
                 }
                 return student;
             });
@@ -124,14 +131,14 @@ function ShowStudent() {
                         <tbody className="bg-white divide-y divide-gray-200">
                             {students.map((student, index) => (
                                 <tr key={index}>
-                                    <td className="px-6 py-4 whitespace-nowrap">{student.id}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{student.stdid}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{student.name}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{student.email}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{student.section}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <button onClick={() => {
                                             setselectedStudent(student);
-                                            setEditStudentID(student.id);
+                                            setEditStudentID(student.stdid);
                                             setEditStudentName(student.name);
                                             seteditStudentEmail(student.email);
                                             setEditStudentSection(student.section);
