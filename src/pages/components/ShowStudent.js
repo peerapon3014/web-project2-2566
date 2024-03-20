@@ -270,7 +270,7 @@ function ShowStudent() {
                             <div className="mt-6">
                                 <label htmlFor="edit-section" className="block text-sm font-medium text-gray-700">Section</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     name="edit-section"
                                     id="edit-section"
                                     autoComplete="given-name"

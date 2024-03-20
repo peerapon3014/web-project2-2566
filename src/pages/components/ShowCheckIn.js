@@ -6,44 +6,56 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import Link from 'next/link';
 import { auth, db } from '../firebase'
 import { collection, getDocs, addDoc, deleteDoc, updateDoc, doc } from 'firebase/firestore';
-import { XMarkIcon, TrashIcon, PencilSquareIcon  } from "@heroicons/react/24/outline";
+import { XMarkIcon, TrashIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 
 function ShowCheckIN() {
-    const [teachers, setTeachers] = useState([]);
-    const [newTeacherName, setNewTeacherName] = useState('');
-    const [newTeacherEmail, setNewTeacherEmail] = useState('');
+    const [checkin, setCheckIn] = useState([]);
+    const [newCheckInSubject, setnewCheckInSubject] = useState('');
+    const [newCheckInRoom, setnewCheckInRoom] = useState('');
+    const [newCheckInSection, setnewCheckInSection] = useState('');
+    const [newCheckInDateTime, setnewCheckInDateTime] = useState('');
+    const [newCheckInRoomCode, setnewCheckInRoomCode] = useState('');
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [selectedTeacher, setSelectedTeacher] = useState(null);
-    const [editTeacherName, setEditTeacherName] = useState('');
-    const [editTeacherEmail, setEditTeacherEmail] = useState('');
+    const [selectedCheckIn, setselectedCheckIn] = useState(null);
+    const [editCheckInSubject, seteditCheckInSubject] = useState('');
+    const [editCheckInRoomCode, seteditCheckInRoomCode] = useState('');
+    const [editCheckInRoom, seteditCheckInRoom] = useState('');
+    const [editCheckInSection, seteditCheckInSection] = useState('');
+    const [editCheckInDateTime, seteditCheckInDateTime] = useState('');
 
     useEffect(() => {
-        const fetchTeachers = async () => {
+        const fetchCheckIns = async () => {
             try {
                 const querySnapshot = await getDocs(collection(db, 'checkin'));
-                const teacherList = [];
+                const checkinList = [];
                 querySnapshot.forEach((doc) => {
-                    const teacherData = { id: doc.id, ...doc.data() };
-                    teacherList.push(teacherData);
+                    const checkinData = { id: doc.id, ...doc.data() };
+                    checkinList.push(checkinData);
                 });
-                setTeachers(teacherList);
+                setCheckIn(checkinList);
             } catch (error) {
-                console.error('Error fetching students: ', error);
+                console.error('Error fetching checkin: ', error);
             }
         };
-        fetchTeachers();
+        fetchCheckIns();
     }, []);
 
-    const handleAddTeacher = async () => {
+    const handleAddCheckIn = async () => {
         try {
             const docRef = await addDoc(collection(db, 'checkin'), {
-                name: newTeacherName,
-                email: newTeacherEmail
+                subject: newCheckInSubject,
+                room_code: newCheckInRoomCode,
+                room: newCheckInRoom,
+                section: newCheckInSection,
+                class_datetime: newCheckInDateTime,
             });
             console.log('Document written with ID: ', docRef.id);
-            setNewTeacherName('');
-            setNewTeacherEmail('');
+            setnewCheckInSubject('');
+            setnewCheckInRoomCode('');
+            setnewCheckInRoom('');
+            setnewCheckInSection('');
+            setnewCheckInDateTime('');
             setIsAddDialogOpen(false);
             window.location.reload();
         } catch (error) {
@@ -51,42 +63,72 @@ function ShowCheckIN() {
         }
     };
 
-    const handleDeleteTeacher = async (teacherId) => {
-        const confirmDelete = window.confirm('คุณแน่ใจหรือไม่ที่จะลบนักเรียน?');
+    const handleEditCheckIn = async () => {
+        try {
+            if (!selectedCheckIn) {
+                console.error('No checkin selected for editing.');
+                return;
+            }
+
+            await updateDoc(doc(db, 'checkin', selectedCheckIn.id), {
+                subject: editCheckInSubject,
+                room_code: editCheckInRoomCode,
+                room: editCheckInRoom,
+                section: editCheckInSection,
+                class_datetime: editCheckInDateTime,
+            });
+
+            const updatedCheckIns = checkin.map(checkin => {
+                if (checkin.id === selectedCheckIn.id) {
+                    return {
+                        ...checkin, subject: editCheckInSubject,
+                        room_code: editCheckInRoomCode,
+                        room: editCheckInRoom,
+                        section: editCheckInSection,
+                        class_datetime: editCheckInDateTime
+                    };
+                }
+                return checkin;
+            });
+            setCheckIn(updatedCheckIns);
+            setIsEditDialogOpen(false);
+        } catch (error) {
+            console.error('Error updating document: ', error);
+        }
+    };
+
+    const handleDeleteCheckIn = async (checkinId) => {
+        const confirmDelete = window.confirm('คุณแน่ใจหรือไม่ที่จะการเช็คชื่อ?');
         if (confirmDelete) {
             try {
-                await deleteDoc(doc(db, 'checkin', teacherId));
-                const updatedTeachers = teachers.filter(teacher => teacher.id !== teacherId);
-                setTeachers(updatedTeachers);
+                await deleteDoc(doc(db, 'checkin', checkinId));
+                const updatedCheckIns = checkin.filter(checkin => checkin.id !== checkinId);
+                setCheckIn(updatedCheckIns);
+                console.log('Document Deleted with ID: ', checkinId);
             } catch (error) {
                 console.error('Error deleting document: ', error);
             }
         }
     };
 
-    const handleEditTeacher = async () => {
-        try {
-            if (!selectedTeacher) {
-                console.error('No std selected for editing.');
-                return;
-            }
-
-            await updateDoc(doc(db, 'checkin', selectedTeacher.id), {
-                subject: editTeacherName,
-                room: editTeacherEmail
-            });
-
-            const updatedTeachers = teachers.map(teacher => {
-                if (teacher.id === selectedTeacher.id) {
-                    return { ...teacher, subject: editTeacherName, room: editTeacherEmail };
-                }
-                return teacher;
-            });
-            setTeachers(updatedTeachers);
-            setIsEditDialogOpen(false);
-        } catch (error) {
-            console.error('Error updating document: ', error);
+    const generateRoomCode = () => {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let result = '';
+        const charactersLength = characters.length;
+        for (let i = 0; i < 6; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
+        return result;
+    };
+
+    useEffect(() => {
+        const generatedRoomCode = generateRoomCode();
+        setnewCheckInRoomCode(generatedRoomCode);
+    }, []);
+
+    const handleRefreshRoomCode = () => {
+        const generatedRoomCode = generateRoomCode();
+        setnewCheckInRoomCode(generatedRoomCode);
     };
 
     return (
@@ -108,27 +150,34 @@ function ShowCheckIN() {
                         <thead className="bg-gray-50">
                             <tr>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ชื่อวิชา</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">กลุ่มเรียน</th> 
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">วันที่</th> 
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">รหัสห้อง</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ห้อง</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Section</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">วันที่</th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">การดำเนินการ</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                            {teachers.map((teacher, index) => (
+                            {checkin.map((checkin, index) => (
                                 <tr key={index}>
-                                    <td className="px-6 py-4 whitespace-nowrap">{teacher.subject}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{teacher.room}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{JSON.stringify(teacher.class_date)}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{checkin.subject}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{checkin.room_code}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{checkin.room}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{checkin.section}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{checkin.class_datetime}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <button onClick={() => {
-                                            setSelectedTeacher(teacher);
-                                            setEditTeacherName(teacher.subject);
-                                            setEditTeacherEmail(teacher.room);
+                                            setselectedCheckIn(checkin);
+                                            seteditCheckInSubject(checkin.subject);
+                                            seteditCheckInRoomCode(checkin.room_code);
+                                            seteditCheckInRoom(checkin.room);
+                                            seteditCheckInSection(checkin.section);
+                                            seteditCheckInDateTime(checkin.class_datetime);
                                             setIsEditDialogOpen(true);
                                         }} className="ml-2">
                                             <PencilSquareIcon className="h-6 w-6 text-indigo-600" />
                                         </button>
-                                        <button onClick={() => handleDeleteTeacher(teacher.id)} className="ml-2">
+                                        <button onClick={() => handleDeleteCheckIn(checkin.id)} className="ml-2">
                                             <TrashIcon className="h-6 w-6 text-red-600" />
                                         </button>
                                     </td>
@@ -142,40 +191,87 @@ function ShowCheckIN() {
                 <div className="fixed z-10 inset-0 overflow-y-auto flex justify-center items-center">
                     <div className="flex items-center justify-center min-h-screen">
                         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                        <div className="relative bg-white w-96 h-96 rounded-lg p-8">
+                        <div className="relative bg-white w-96 h-auto rounded-lg p-8">
                             <div className="flex justify-end">
                                 <button onClick={() => setIsAddDialogOpen(false)}>
                                     <XMarkIcon className="h-6 w-6 text-gray-500" />
                                 </button>
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">ชื่อ</label>
+                                <label htmlFor="subject" className="block text-sm font-medium text-gray-700">วิชา</label>
                                 <input
                                     type="text"
-                                    name="name"
-                                    id="name"
+                                    name="subject"
+                                    id="subject"
                                     autoComplete="given-name"
-                                    value={newTeacherName}
-                                    onChange={(e) => setNewTeacherName(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    value={newCheckInSubject}
+                                    onChange={(e) => setnewCheckInSubject(e.target.value)}
+                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">อีเมล</label>
+                                <label htmlFor="roomCode" className="block text-sm font-medium text-gray-700">รหัสห้อง</label>
+                                <div className='flex'>
+                                    <input
+                                        type="text"
+                                        name="roomCode"
+                                        id="roomCode"
+                                        autoComplete="given-name"
+                                        disabled
+                                        value={newCheckInRoomCode}
+                                        onChange={(e) => setnewCheckInRoomCode(e.target.value)}
+                                        className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    />
+                                    <button
+                                        onClick={handleRefreshRoomCode}
+                                        className="mt-1 ml-2 inline-flex justify-center rounded-md border border-transparent shadow-sm px-2 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-700 sm:text-sm"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="mt-6">
+                                <label htmlFor="room" className="block text-sm font-medium text-gray-700">ห้อง</label>
                                 <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    autoComplete="email"
-                                    value={newTeacherEmail}
-                                    onChange={(e) => setNewTeacherEmail(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    type="text"
+                                    name="room"
+                                    id="room"
+                                    autoComplete="given-name"
+                                    value={newCheckInRoom}
+                                    onChange={(e) => setnewCheckInRoom(e.target.value)}
+                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                />
+                            </div>
+                            <div className="mt-6">
+                                <label htmlFor="section" className="block text-sm font-medium text-gray-700">Section</label>
+                                <input
+                                    type="number"
+                                    name="section"
+                                    id="section"
+                                    autoComplete="given-name"
+                                    value={newCheckInSection}
+                                    onChange={(e) => setnewCheckInSection(e.target.value)}
+                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                />
+                            </div>
+                            <div className="mt-6">
+                                <label htmlFor="datetime" className="block text-sm font-medium text-gray-700">วันที่และเวลา</label>
+                                <input
+                                    type="datetime-local"
+                                    name="datetime"
+                                    id="datetime"
+                                    autoComplete="given-name"
+                                    value={newCheckInDateTime}
+                                    onChange={(e) => setnewCheckInDateTime(e.target.value)}
+                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
                                 />
                             </div>
                             <div className="mt-6">
                                 <button
-                                    onClick={handleAddTeacher}
-                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
+                                    onClick={handleAddCheckIn}
+                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-700 sm:text-sm"
                                 >
                                     เพิ่ม
                                 </button>
@@ -187,40 +283,77 @@ function ShowCheckIN() {
                 <div className="fixed z-10 inset-0 overflow-y-auto flex justify-center items-center">
                     <div className="flex items-center justify-center min-h-screen">
                         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                        <div className="relative bg-white w-96 h-96 rounded-lg p-8">
+                        <div className="relative bg-white w-96 h-auto rounded-lg p-8">
                             <div className="flex justify-end">
                                 <button onClick={() => setIsEditDialogOpen(false)}>
                                     <XMarkIcon className="h-6 w-6 text-gray-500" />
                                 </button>
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="edit-name" className="block text-sm font-medium text-gray-700">ชื่อ</label>
+                                <label htmlFor="edit-subject" className="block text-sm font-medium text-gray-700">วิชา</label>
                                 <input
                                     type="text"
-                                    name="edit-name"
-                                    id="edit-name"
+                                    name="edit-subject"
+                                    id="edit-subject"
                                     autoComplete="given-name"
-                                    value={editTeacherName}
-                                    onChange={(e) => setEditTeacherName(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    value={editCheckInSubject}
+                                    onChange={(e) => seteditCheckInSubject(e.target.value)}
+                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="edit-email" className="block text-sm font-medium text-gray-700">อีเมล</label>
+                                <label htmlFor="edit-roomcode" className="block text-sm font-medium text-gray-700">รหัสห้อง</label>
                                 <input
-                                    type="email"
-                                    name="edit-email"
-                                    id="edit-email"
-                                    autoComplete="email"
-                                    value={editTeacherEmail}
-                                    onChange={(e) => setEditTeacherEmail(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    type="text"
+                                    name="edit-roomcode"
+                                    id="edit-roomcode"
+                                    autoComplete="given-name"
+                                    disabled
+                                    value={editCheckInRoomCode}
+                                    onChange={(e) => seteditCheckInRoomCode(e.target.value)}
+                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                />
+                            </div>
+                            <div className="mt-6">
+                                <label htmlFor="edit-room" className="block text-sm font-medium text-gray-700">ห้อง</label>
+                                <input
+                                    type="room"
+                                    name="edit-room"
+                                    id="edit-room"
+                                    autoComplete="room"
+                                    value={editCheckInRoom}
+                                    onChange={(e) => seteditCheckInRoom(e.target.value)}
+                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                />
+                            </div>
+                            <div className="mt-6">
+                                <label htmlFor="edit-section" className="block text-sm font-medium text-gray-700">Section</label>
+                                <input
+                                    type="number"
+                                    name="edit-section"
+                                    id="edit-section"
+                                    autoComplete="given-name"
+                                    value={editCheckInSection}
+                                    onChange={(e) => seteditCheckInSection(e.target.value)}
+                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                />
+                            </div>
+                            <div className="mt-6">
+                                <label htmlFor="datetime" className="block text-sm font-medium text-gray-700">วันที่และเวลา</label>
+                                <input
+                                    type="datetime-local"
+                                    name="datetime"
+                                    id="datetime"
+                                    autoComplete="given-name"
+                                    value={editCheckInDateTime}
+                                    onChange={(e) => seteditCheckInDateTime(e.target.value)}
+                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
                                 />
                             </div>
                             <div className="mt-6">
                                 <button
-                                    onClick={handleEditTeacher}
-                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
+                                    onClick={handleEditCheckIn}
+                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-700 sm:text-sm"
                                 >
                                     บันทึก
                                 </button>
