@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { onAuthStateChanged } from "firebase/auth";
-import Cards from './CardAdcourse'
-import MyFooter from '@/pages/components/footer'
-import { PlusIcon } from "@heroicons/react/24/outline";
-import Link from 'next/link';
-import { auth, db } from '../firebase'
+import { db } from '../firebase'
 import { collection, getDocs, addDoc, deleteDoc, updateDoc, doc } from 'firebase/firestore';
 import { XMarkIcon, TrashIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { Input } from "@nextui-org/react";
 
 function ShowCheckIN() {
     const [checkin, setCheckIn] = useState([]);
@@ -198,74 +194,86 @@ function ShowCheckIN() {
                                 </button>
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="subject" className="block text-sm font-medium text-gray-700">วิชา</label>
-                                <input
+                                <Input
+                                    label="วิชา"
                                     type="text"
+                                    variant="underlined"
                                     name="subject"
                                     id="subject"
                                     autoComplete="given-name"
+                                    isRequired={true}
                                     value={newCheckInSubject}
                                     onChange={(e) => setnewCheckInSubject(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="roomCode" className="block text-sm font-medium text-gray-700">รหัสห้อง</label>
                                 <div className='flex'>
-                                    <input
+                                    <Input
+                                        label="รหัสห้อง"
                                         type="text"
+                                        variant="underlined"
                                         name="roomCode"
                                         id="roomCode"
                                         autoComplete="given-name"
-                                        disabled
+                                        isReadOnly
                                         value={newCheckInRoomCode}
                                         onChange={(e) => setnewCheckInRoomCode(e.target.value)}
-                                        className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                        className="max-w-xs"
+                                        endContent={
+                                            <button
+                                                onClick={handleRefreshRoomCode}
+                                                className="focus:outline-none"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                                </svg>
+                                            </button>
+                                        }
                                     />
-                                    <button
-                                        onClick={handleRefreshRoomCode}
-                                        className="mt-1 ml-2 inline-flex justify-center rounded-md border border-transparent shadow-sm px-2 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-700 sm:text-sm"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                                        </svg>
-                                    </button>
+
                                 </div>
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="room" className="block text-sm font-medium text-gray-700">ห้อง</label>
-                                <input
+                                <Input
+                                    label="ห้อง"
                                     type="text"
+                                    variant="underlined"
                                     name="room"
                                     id="room"
                                     autoComplete="given-name"
                                     value={newCheckInRoom}
                                     onChange={(e) => setnewCheckInRoom(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="section" className="block text-sm font-medium text-gray-700">Section</label>
-                                <input
+                                <Input
+                                    label="Section"
                                     type="number"
+                                    variant="underlined"
                                     name="section"
                                     id="section"
                                     autoComplete="given-name"
+                                    isRequired={true}
                                     value={newCheckInSection}
                                     onChange={(e) => setnewCheckInSection(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="datetime" className="block text-sm font-medium text-gray-700">วันที่และเวลา</label>
-                                <input
+                                <Input
+                                    label="วันที่และเวลา"
                                     type="datetime-local"
                                     name="datetime"
                                     id="datetime"
+                                    variant="underlined"
                                     autoComplete="given-name"
+                                    placeholder="Enter your datetime"
+                                    isRequired={true}
                                     value={newCheckInDateTime}
                                     onChange={(e) => setnewCheckInDateTime(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
                                 />
                             </div>
                             <div className="mt-6">
@@ -290,64 +298,73 @@ function ShowCheckIN() {
                                 </button>
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="edit-subject" className="block text-sm font-medium text-gray-700">วิชา</label>
-                                <input
+                                <Input
+                                    label="วิชา"
                                     type="text"
                                     name="edit-subject"
                                     id="edit-subject"
                                     autoComplete="given-name"
+                                    variant="underlined"
+                                    isRequired={true}
                                     value={editCheckInSubject}
                                     onChange={(e) => seteditCheckInSubject(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="edit-roomcode" className="block text-sm font-medium text-gray-700">รหัสห้อง</label>
-                                <input
+                                <Input
+                                    label="รหัสห้อง"
                                     type="text"
                                     name="edit-roomcode"
                                     id="edit-roomcode"
                                     autoComplete="given-name"
-                                    disabled
+                                    variant="underlined"
+                                    isReadOnly
                                     value={editCheckInRoomCode}
                                     onChange={(e) => seteditCheckInRoomCode(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="edit-room" className="block text-sm font-medium text-gray-700">ห้อง</label>
-                                <input
+                                <Input
+                                    label="ห้อง"
                                     type="room"
                                     name="edit-room"
                                     id="edit-room"
                                     autoComplete="room"
+                                    variant="underlined"
                                     value={editCheckInRoom}
                                     onChange={(e) => seteditCheckInRoom(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="edit-section" className="block text-sm font-medium text-gray-700">Section</label>
-                                <input
+                                <Input
+                                    label="Section"
                                     type="number"
                                     name="edit-section"
                                     id="edit-section"
                                     autoComplete="given-name"
+                                    variant="underlined"
                                     value={editCheckInSection}
+                                    isRequired={true}
                                     onChange={(e) => seteditCheckInSection(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="datetime" className="block text-sm font-medium text-gray-700">วันที่และเวลา</label>
-                                <input
+                                <Input
+                                    label="วันที่และเวลา"
                                     type="datetime-local"
                                     name="datetime"
                                     id="datetime"
                                     autoComplete="given-name"
+                                    variant="underlined"
                                     value={editCheckInDateTime}
+                                    placeholder="Enter your datetime"
+                                    isRequired={true}
                                     onChange={(e) => seteditCheckInDateTime(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm border-1 border-gray-200 focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
                                 />
                             </div>
                             <div className="mt-6">

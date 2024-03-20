@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { onAuthStateChanged } from "firebase/auth";
-import Cards from './CardAdcourse'
-import MyFooter from '@/pages/components/footer'
-import Link from 'next/link';
-import { auth, db } from '../firebase'
+import { db } from '../firebase'
 import { collection, getDocs, addDoc, deleteDoc, updateDoc, doc } from 'firebase/firestore';
 import { XMarkIcon, TrashIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { Input } from "@nextui-org/react";
 
 function ShowStudent() {
     const [students, setStudents] = useState([]);
@@ -119,7 +116,7 @@ function ShowStudent() {
                             <tr>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">รหัสนักศึกษา</th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ชื่อ</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">อีเมล์</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Section</th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">การดำเนินการ</th>
                             </tr>
@@ -163,57 +160,65 @@ function ShowStudent() {
                                 </button>
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="id" className="block text-sm font-medium text-gray-700">รหัสนักศึกษา</label>
-                                <input
+                                <Input
+                                    label="รหัสนักศึกษา"
                                     type="text"
                                     name="id"
                                     id="id"
                                     autoComplete="given-name"
                                     value={newStudentID}
                                     onChange={(e) => setNewStudentID(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
+                                    variant='underlined'
+                                    isRequired={true}
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">ชื่อ</label>
-                                <input
+                                <Input
+                                    label="ชื่อ"
                                     type="text"
                                     name="name"
                                     id="name"
                                     autoComplete="given-name"
                                     value={newStudentName}
                                     onChange={(e) => setNewStudentName(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
+                                    variant='underlined'
+                                    isRequired={true}
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">อีเมล</label>
-                                <input
+                                <Input
+                                    label="Email"
                                     type="email"
                                     name="email"
                                     id="email"
                                     autoComplete="email"
                                     value={newStudentEmail}
                                     onChange={(e) => setNewStudentEmail(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
+                                    variant='underlined'
+                                    isRequired={true}
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="section" className="block text-sm font-medium text-gray-700">Section</label>
-                                <input
+                                <Input
+                                    label="Section"
                                     type="number"
                                     name="section"
                                     id="section"
                                     autoComplete="given-name"
                                     value={newStudentSection}
                                     onChange={(e) => setNewStudentSection(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
+                                    variant='underlined'
+                                    isRequired={true}
                                 />
                             </div>
                             <div className="mt-6">
                                 <button
                                     onClick={handleAddStudent}
-                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm"
+                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-500 sm:text-sm"
                                 >
                                     เพิ่ม
                                 </button>
@@ -232,57 +237,65 @@ function ShowStudent() {
                                 </button>
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="edit-id" className="block text-sm font-medium text-gray-700">รหัสนักศึกษา</label>
-                                <input
+                                <Input
+                                    label="รหัสนักศึกษา"
                                     type="text"
                                     name="edit-id"
                                     id="edit-id"
                                     autoComplete="given-name"
                                     value={editStudentID}
                                     onChange={(e) => setEditStudentID(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
+                                    variant='underlined'
+                                    isRequired={true}
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="edit-name" className="block text-sm font-medium text-gray-700">ชื่อ</label>
-                                <input
+                                <Input
+                                    label="ชื่อ"
                                     type="text"
                                     name="edit-name"
                                     id="edit-name"
                                     autoComplete="given-name"
                                     value={editStudentName}
                                     onChange={(e) => setEditStudentName(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
+                                    variant='underlined'
+                                    isRequired={true}
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="edit-email" className="block text-sm font-medium text-gray-700">อีเมล</label>
-                                <input
+                                <Input
+                                    label="Email"
                                     type="email"
                                     name="edit-email"
                                     id="edit-email"
                                     autoComplete="email"
                                     value={editStudentEmail}
                                     onChange={(e) => seteditStudentEmail(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
+                                    variant='underlined'
+                                    isRequired={true}
                                 />
                             </div>
                             <div className="mt-6">
-                                <label htmlFor="edit-section" className="block text-sm font-medium text-gray-700">Section</label>
-                                <input
+                                <Input
+                                    label="Section"
                                     type="number"
                                     name="edit-section"
                                     id="edit-section"
                                     autoComplete="given-name"
                                     value={editStudentSection}
                                     onChange={(e) => setEditStudentSection(e.target.value)}
-                                    className="mt-1 p-2 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                                    className="max-w-xs"
+                                    variant='underlined'
+                                    isRequired={true}
                                 />
                             </div>
                             <div className="mt-6">
                                 <button
                                     onClick={handleEditStudent}
-                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm"
+                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-500 sm:text-sm"
                                 >
                                     บันทึก
                                 </button>
