@@ -124,6 +124,7 @@ export default function Coursedetail() {
                               name="roomCode"
                               id="roomCode"
                               autoComplete="given-name"
+                              placeholder="ยังไม่แล้วเด้อ"
                               className="max-w-xs"
                             />
                           </div>
