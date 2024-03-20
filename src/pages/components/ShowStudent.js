@@ -144,7 +144,7 @@ function ShowStudent() {
                                             setEditStudentSection(student.section);
                                             setIsEditDialogOpen(true);
                                         }} className="ml-2">
-                                            <PencilSquareIcon className="h-6 w-6 text-indigo-600" />
+                                            <PencilSquareIcon className="h-6 w-6 text-primary-600" />
                                         </button>
                                         <button onClick={() => handleDeleteStudent(student.id)} className="ml-2">
                                             <TrashIcon className="h-6 w-6 text-red-600" />

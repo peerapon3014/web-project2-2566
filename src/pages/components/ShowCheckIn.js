@@ -171,7 +171,7 @@ function ShowCheckIN() {
                                             seteditCheckInDateTime(checkin.class_datetime);
                                             setIsEditDialogOpen(true);
                                         }} className="ml-2">
-                                            <PencilSquareIcon className="h-6 w-6 text-indigo-600" />
+                                            <PencilSquareIcon className="h-6 w-6 text-primary-600" />
                                         </button>
                                         <button onClick={() => handleDeleteCheckIn(checkin.id)} className="ml-2">
                                             <TrashIcon className="h-6 w-6 text-red-600" />

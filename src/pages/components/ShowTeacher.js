@@ -120,7 +120,7 @@ function ShowTeacher() {
                                             setEditTeacherEmail(teacher.email);
                                             setIsEditDialogOpen(true);
                                         }} className="ml-2">
-                                            <PencilSquareIcon className="h-6 w-6 text-indigo-600" />
+                                            <PencilSquareIcon className="h-6 w-6 text-primary-600" />
                                         </button>
                                         <button onClick={() => handleDeleteTeacher(teacher.id)} className="ml-2">
                                             <TrashIcon className="h-6 w-6 text-red-600" />

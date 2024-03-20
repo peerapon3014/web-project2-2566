@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { ChevronDoubleLeftIcon, HomeIcon, ArchiveBoxXMarkIcon, PencilSquareIcon, DocumentPlusIcon, ArrowRightStartOnRectangleIcon, ClipboardIcon, ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
-import HomeAdmin from './HomeAdmin';
+import {
+  ChevronDoubleLeftIcon,
+  AcademicCapIcon ,
+  ArrowRightStartOnRectangleIcon,
+  ClipboardIcon,
+  ClipboardDocumentCheckIcon
+} from "@heroicons/react/24/outline";
 import Link from 'next/link';
 import {
   onAuthStateChanged,
@@ -8,9 +13,8 @@ import {
 } from "firebase/auth";
 import { auth, db } from '../firebase'
 import { collection, query, where, getDocs } from "firebase/firestore";
-import Homepage from "@/pages/components/Homepage";
-import ShowCheckIn from "@/pages/components/ShowCheckIn";
 import { useRouter } from 'next/router';
+import ShowCheckIn from "@/pages/components/ShowCheckIn";
 
 const SidebarContext = () => {
   const [open, setOpen] = useState(true);
@@ -115,7 +119,7 @@ const SidebarContext = () => {
               </Link>
               <Link href='/components/SidebarShowStudent'>
                 <li className={"flex hover:bg-blue-400  p-2  cursor-pointer  rounded-md   text-white text-sm items-center gap-x-4 "}>
-                  <ClipboardIcon className="h-8 w-8 text-white" />
+                  <AcademicCapIcon className="h-8 w-8 text-white" />
                   <span className={`${!open && "hidden"} origin-left text-[1.2em] duration-200`}>
                     <p className='text-lg mt-2  text-white '>แสดงรายชื่อนักเรียน</p>
                   </span>
@@ -134,11 +138,6 @@ const SidebarContext = () => {
                   className={"flex hover:bg-blue-400  p-2  cursor-pointer  rounded-md   text-white text-sm items-center gap-x-4 "}
                 >
                   <ArrowRightStartOnRectangleIcon className="h-8 w-8 text-gray-200" />
-                  {/* <img
-                    src={MyYoshi.src}
-                    className={`cursor-pointer rounded-full w-10 duration-500  ${open && "rotate-[360deg]  "
-                      }`}
-                  /> */}
                   <span className={`${!open && "hidden"} origin-left text-[1.2em] duration-200`}>
                     <p className='text-[1em] mt-2  text-gray-200'>ออกจากระบบ</p>
                   </span>
