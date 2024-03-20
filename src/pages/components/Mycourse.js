@@ -98,11 +98,11 @@ function Cscourse() {
                         </div>
 
                       </div>
-                      <div className=" text-base font-semibold leading-7">
+                      {/* <div className=" text-base font-semibold leading-7">
                         <div className="w-full bg-gray-200 rounded-full ">
                           <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full w-[17em]" > 90%</div>
                         </div>
-                      </div>
+                      </div> */}
                     </Link>
                     {/* <Link href='/components/continuous'
                   className="group relative cursor-pointer overflow-hidden bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm sm:rounded-lg sm:px-10">
