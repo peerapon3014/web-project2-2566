@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { auth, db } from '../firebase'
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { CheckIcon } from '@heroicons/react/20/solid'
+import { CheckIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import Webde from '../images/webde.png'
 const includedFeatures = [
   'การพัฒนาโปรแกรมประยุกต์สำหรับอุปกรณ์โทรศัพท์ แทปเล็ต และ อุปกรณ์เคลื่อนที่อื่นๆ ที่ใช้ระบบปฏิบัติการ แอนดรอยด์ หรือ ไอโอเอส โดยใช้เว็บเทคโนโลยี ได้แก่ HTML5 CSS และส่วนต่อประสานโปรแกรมประยุกต์ด้วยจาวาสคริปต์เพื่อเข้าถึงการวางแนวอุปกรณ์ การจัดการการสัมผัสหน้าจอ แหล่งเก็บข้อมูลท้องถิ่น การเข้าถึงกล้องและการระบุตำแหน่ง'
@@ -15,10 +15,12 @@ import Homepage from "@/pages/components/Homepage";
 import Homeadmin from "@/pages/components/Sidebar";
 import NotFound from '@/pages/components/NotFound'
 import { useRouter } from 'next/router';
+import { Input } from "@nextui-org/react";
 
 export default function Coursedetail() {
   const [isRole, setIsRole] = useState(null)
   const router = useRouter();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -98,11 +100,45 @@ export default function Coursedetail() {
               </div>
 
               <div className='bg-white  shadow-xl shadow-blue-100/50  mt-10 p-8 '>
-                <Link href='/components/Course'>
+                <Link href='#' onClick={() => setIsDialogOpen(true)}>
                   <div className="flex group cursor-pointer w-4/4 h-16 justify-between  items-center  mt-5 rounded-md bg-[#1373BB] hover:bg-blue-100 hover:shadow-lg text-white pl-10 hover:text-[#1373BB]">
                     เช็คชื่อเข้าเรียน
                   </div>
                 </Link>
+                {isDialogOpen && (
+                  <div className="fixed z-10 inset-0 overflow-y-auto flex justify-center items-center">
+                    <div className="flex items-center justify-center min-h-screen">
+                      <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                      <div className="relative bg-white w-96 h-auto rounded-lg p-8">
+                        <div className="flex justify-end">
+                          <button onClick={() => setIsDialogOpen(false)}>
+                            <XMarkIcon className="h-6 w-6 text-gray-500" />
+                          </button>
+                        </div>
+                        <div>
+                          <div>
+                            <Input
+                              label="รหัสห้อง"
+                              type="text"
+                              variant="underlined"
+                              name="roomCode"
+                              id="roomCode"
+                              autoComplete="given-name"
+                              className="max-w-xs"
+                            />
+                          </div>
+                        </div>
+                        <div className="mt-6">
+                          <button
+                            onClick={() => setIsDialogOpen(false)}
+                            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-700 sm:text-sm">
+                            ยืนยัน
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <Link href='/components/Course'>
                   <div className="flex group cursor-pointer w-4/4 h-16 justify-between  items-center  mt-5 rounded-md bg-[#1373BB] hover:bg-blue-100 hover:shadow-lg text-white pl-10 hover:text-[#1373BB]">
                     ตอบคำถาม
@@ -115,7 +151,8 @@ export default function Coursedetail() {
             </div>
           </div><MyFooter />
         </>
-      ):isRole === "unknown" && <NotFound/>}
+      ) : isRole === "unknown" && <NotFound />
+      }
     </>
   )
 }
