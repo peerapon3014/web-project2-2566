@@ -155,6 +155,36 @@ function ShowCheckIN() {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {checkin.map((checkin, index) => (
+                                checkin.subject && checkin.room_code && checkin.room && checkin.section && checkin.class_datetime && (
+                                    <tr key={index}>
+                                        <td className="px-6 py-4 whitespace-nowrap">{checkin.subject}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{checkin.room_code}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{checkin.room}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{checkin.section}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{checkin.class_datetime}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <button onClick={() => {
+                                                setselectedCheckIn(checkin);
+                                                seteditCheckInSubject(checkin.subject);
+                                                seteditCheckInRoomCode(checkin.room_code);
+                                                seteditCheckInRoom(checkin.room);
+                                                seteditCheckInSection(checkin.section);
+                                                seteditCheckInDateTime(checkin.class_datetime);
+                                                setIsEditDialogOpen(true);
+                                            }} className="ml-2">
+                                                <PencilSquareIcon className="h-6 w-6 text-primary-600" />
+                                            </button>
+                                            <button onClick={() => handleDeleteCheckIn(checkin.id)} className="ml-2">
+                                                <TrashIcon className="h-6 w-6 text-red-600" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            ))}
+                        </tbody>
+
+                        {/* <tbody className="bg-white divide-y divide-gray-200">
+                            {checkin.map((checkin, index) => (
                                 <tr key={index}>
                                     <td className="px-6 py-4 whitespace-nowrap">{checkin.subject}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{checkin.room_code}</td>
@@ -179,7 +209,7 @@ function ShowCheckIN() {
                                     </td>
                                 </tr>
                             ))}
-                        </tbody>
+                        </tbody> */}
                     </table>
                 </div>
             </div>
