@@ -36,7 +36,7 @@ const SidebarContext = () => {
                         onClick={() => setOpen(!open)} />
 
                     <div className="flex gap-x-4 items-center">
-                        <img
+                        <image
                             src={Ann.src}
                             className={`cursor-pointer rounded-full w-10 duration-500  ${open && "rotate-[360deg]"
                                 }`}

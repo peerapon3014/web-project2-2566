@@ -12,7 +12,7 @@ import { onAuthStateChanged } from "firebase/auth";
 
 import React from 'react'
 
-function cards() {
+function Cards() {
     const [isRole, setIsRole] = useState(null)
 
     useEffect(() => {
@@ -159,4 +159,4 @@ function cards() {
     )
 }
 
-export default cards
+export default Cards
