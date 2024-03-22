@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { db } from '../firebase'
 import { collection, getDocs, addDoc, deleteDoc, updateDoc, doc, getDoc } from 'firebase/firestore';
-import { XMarkIcon, TrashIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon, TrashIcon, PencilSquareIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { Input } from "@nextui-org/react";
 
 function ShowCheckIN() {
@@ -14,6 +14,7 @@ function ShowCheckIN() {
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [isGetCheckinOpen, setIsGetCheckinOpen] = useState(false);
+    const [isShowRoomCodeDialogOpen, setIsShowRoomCodeDialogOpen] = useState(false);
     const [selectedCheckIn, setselectedCheckIn] = useState(null);
     const [editCheckInSubject, seteditCheckInSubject] = useState('');
     const [editCheckInRoom, seteditCheckInRoom] = useState('');
@@ -175,7 +176,12 @@ function ShowCheckIN() {
                             {checkin.map((checkin, index) => (
                                 <tr key={index}>
                                     <td className="px-6 py-4 whitespace-nowrap">{checkin.subject}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{checkin.room_code}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        {checkin.room_code}
+                                        <button onClick={() => { setIsShowRoomCodeDialogOpen(true) }} className="ml-2">
+                                            <EyeIcon className="h-5 w-5" />
+                                        </button>
+                                    </td>
                                     <td className="px-6 py-4 whitespace-nowrap">{checkin.room}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{checkin.section}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{new Date(checkin.class_datetime).toLocaleString()}</td>
@@ -412,7 +418,7 @@ function ShowCheckIN() {
                         </div>
                     </div>
                 </div>
-            ) : isGetCheckinOpen && (
+            ) : isGetCheckinOpen ? (
                 <div className="fixed z-10 inset-0 overflow-y-auto flex justify-center items-center">
                     <div className="flex items-center justify-center min-h-screen">
                         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -448,6 +454,26 @@ function ShowCheckIN() {
                                         ))}
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ) : isShowRoomCodeDialogOpen && (
+                <div className="fixed z-10 inset-0 overflow-y-auto flex justify-center items-center">
+                    <div className="flex items-center justify-center min-h-screen">
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                        <div className="relative bg-white w-auto h-auto rounded-lg p-8">
+                            <div className="flex justify-end">
+                                <button onClick={() => setIsShowRoomCodeDialogOpen(false)}>
+                                    <XMarkIcon className="h-6 w-6 text-gray-500" />
+                                </button>
+                            </div>
+                            <div>
+                                {checkin.map((checkin, index) => (
+                                    <>
+                                        <p style={{ fontSize: "48px" }}>รหัสห้อง: {checkin.room_code}</p>
+                                    </>
+                                ))}
                             </div>
                         </div>
                     </div>
