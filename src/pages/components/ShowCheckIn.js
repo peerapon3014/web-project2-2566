@@ -18,6 +18,7 @@ function ShowCheckIN() {
     const [selectedCheckIn, setselectedCheckIn] = useState(null);
     const [editCheckInSubject, seteditCheckInSubject] = useState('');
     const [editCheckInRoom, seteditCheckInRoom] = useState('');
+    const [editCheckInRoomCode, seteditCheckInRoomCode] = useState('');
     const [editCheckInSection, seteditCheckInSection] = useState('');
     const [editCheckInDateTime, seteditCheckInDateTime] = useState('');
     const [checkedStudents, setCheckedStudents] = useState([]);
@@ -178,7 +179,10 @@ function ShowCheckIN() {
                                     <td className="px-6 py-4 whitespace-nowrap">{checkin.subject}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         {checkin.room_code}
-                                        <button onClick={() => { setIsShowRoomCodeDialogOpen(true) }} className="ml-2">
+                                        <button onClick={() => {
+                                            seteditCheckInRoomCode(checkin.room_code);
+                                            setIsShowRoomCodeDialogOpen(true)
+                                        }} className="ml-2">
                                             <EyeIcon className="h-5 w-5" />
                                         </button>
                                     </td>
@@ -468,12 +472,8 @@ function ShowCheckIN() {
                                     <XMarkIcon className="h-6 w-6 text-gray-500" />
                                 </button>
                             </div>
-                            <div>
-                                {checkin.map((checkin, index) => (
-                                    <>
-                                        <p key={index} style={{ fontSize: "48px" }}>รหัสห้อง: {checkin.room_code}</p>
-                                    </>
-                                ))}
+                            <div className='mt-2'>
+                                <p style={{ fontSize: "72px" }}>รหัสห้อง: {editCheckInRoomCode}</p>
                             </div>
                         </div>
                     </div>
