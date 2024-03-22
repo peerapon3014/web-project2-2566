@@ -9,6 +9,7 @@ function ShowStudent() {
     const [newStudentID, setNewStudentID] = useState('');
     const [newStudentName, setNewStudentName] = useState('');
     const [newStudentEmail, setNewStudentEmail] = useState('');
+    const [newStudentCourse, setNewStudentCourse] = useState('');
     const [newStudentSection, setNewStudentSection] = useState('');
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -16,6 +17,7 @@ function ShowStudent() {
     const [editStudentID, setEditStudentID] = useState('');
     const [editStudentName, setEditStudentName] = useState('');
     const [editStudentEmail, seteditStudentEmail] = useState('');
+    const [editStudentCourse, setEditStudentCourse] = useState('');
     const [editStudentSection, setEditStudentSection] = useState('');
 
     useEffect(() => {
@@ -41,12 +43,14 @@ function ShowStudent() {
                 stdid: newStudentID,
                 name: newStudentName,
                 email: newStudentEmail,
+                course: newStudentCourse,
                 section: newStudentSection
             });
             console.log('Document written with ID: ', docRef.id);
             setNewStudentID('');
             setNewStudentName('');
             setNewStudentEmail('');
+            setNewStudentCourse('');
             setNewStudentSection('');
             setIsAddDialogOpen(false);
             window.location.reload();
@@ -82,6 +86,7 @@ function ShowStudent() {
                 stdid: editStudentID,
                 name: editStudentName,
                 email: editStudentEmail,
+                course: editStudentCourse,
                 section: editStudentSection
             });
 
@@ -91,6 +96,7 @@ function ShowStudent() {
                         ...student, stdid: editStudentID,
                         name: editStudentName,
                         email: editStudentEmail,
+                        course: editStudentCourse,
                         section: editStudentSection
                     };
                 }
@@ -124,6 +130,7 @@ function ShowStudent() {
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">รหัสนักศึกษา</th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ชื่อ</th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">สาขา</th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Section</th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">การดำเนินการ</th>
                             </tr>
@@ -134,6 +141,7 @@ function ShowStudent() {
                                     <td className="px-6 py-4 whitespace-nowrap">{student.stdid}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{student.name}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{student.email}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{student.course}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{student.section}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <button onClick={() => {
@@ -141,6 +149,7 @@ function ShowStudent() {
                                             setEditStudentID(student.stdid);
                                             setEditStudentName(student.name);
                                             seteditStudentEmail(student.email);
+                                            setEditStudentCourse(student.course);
                                             setEditStudentSection(student.section);
                                             setIsEditDialogOpen(true);
                                         }} className="ml-2">
@@ -203,6 +212,20 @@ function ShowStudent() {
                                     autoComplete="email"
                                     value={newStudentEmail}
                                     onChange={(e) => setNewStudentEmail(e.target.value)}
+                                    className="max-w-xs"
+                                    variant='underlined'
+                                    isRequired={true}
+                                />
+                            </div>
+                            <div className="mt-6">
+                                <Input
+                                    label="สาขา"
+                                    type="text"
+                                    name="course"
+                                    id="course"
+                                    autoComplete="given-name"
+                                    value={newStudentCourse}
+                                    onChange={(e) => setNewStudentCourse(e.target.value)}
                                     className="max-w-xs"
                                     variant='underlined'
                                     isRequired={true}
@@ -280,6 +303,20 @@ function ShowStudent() {
                                     autoComplete="email"
                                     value={editStudentEmail}
                                     onChange={(e) => seteditStudentEmail(e.target.value)}
+                                    className="max-w-xs"
+                                    variant='underlined'
+                                    isRequired={true}
+                                />
+                            </div>
+                            <div className="mt-6">
+                                <Input
+                                    label="สาขา"
+                                    type="text"
+                                    name="edit-course"
+                                    id="edit-course"
+                                    autoComplete="given-name"
+                                    value={editStudentCourse}
+                                    onChange={(e) => setEditStudentCourse(e.target.value)}
                                     className="max-w-xs"
                                     variant='underlined'
                                     isRequired={true}

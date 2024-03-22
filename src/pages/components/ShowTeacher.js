@@ -48,7 +48,7 @@ function ShowTeacher() {
     };
 
     const handleDeleteTeacher = async (teacherId) => {
-        const confirmDelete = window.confirm('คุณแน่ใจหรือไม่ที่จะลบอาจารย์นี้?');
+        const confirmDelete = window.confirm('คุณแน่ใจหรือไม่ที่จะลบอาจารย์คนนี้?');
         if (confirmDelete) {
             try {
                 await deleteDoc(doc(db, 'teachers', teacherId));

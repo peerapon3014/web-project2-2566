@@ -83,6 +83,7 @@ export default function Coursedetail() {
             stdid: student.stdid,
             name: student.name,
             email: student.email,
+            course: student.course,
             section: student.section,
             checked_date: new Date(),
           });
@@ -96,7 +97,7 @@ export default function Coursedetail() {
               console.error("Error Check-in: ", error);
             });
         } else {
-          alert(student.name + " ได้เช็คชื่อไปแล้ว");
+          alert(student.stdid + " " + student.name + " ได้เช็คชื่อไปแล้ว");
         }
       }
     });

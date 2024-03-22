@@ -16,7 +16,6 @@ function ShowCheckIN() {
     const [isGetCheckinOpen, setIsGetCheckinOpen] = useState(false);
     const [selectedCheckIn, setselectedCheckIn] = useState(null);
     const [editCheckInSubject, seteditCheckInSubject] = useState('');
-    const [editCheckInRoomCode, seteditCheckInRoomCode] = useState('');
     const [editCheckInRoom, seteditCheckInRoom] = useState('');
     const [editCheckInSection, seteditCheckInSection] = useState('');
     const [editCheckInDateTime, seteditCheckInDateTime] = useState('');
@@ -96,7 +95,7 @@ function ShowCheckIN() {
     };
 
     const handleDeleteCheckIn = async (checkinId) => {
-        const confirmDelete = window.confirm('คุณแน่ใจหรือไม่ที่จะการเช็คชื่อ?');
+        const confirmDelete = window.confirm('คุณแน่ใจหรือไม่ที่จะลบการเช็คชื่อ?');
         if (confirmDelete) {
             try {
                 await deleteDoc(doc(db, 'checkin', checkinId));
@@ -110,7 +109,7 @@ function ShowCheckIN() {
     };
 
     const generateRoomCode = () => {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let result = '';
         const charactersLength = characters.length;
         for (let i = 0; i < 6; i++) {
@@ -136,6 +135,7 @@ function ShowCheckIN() {
             if (docSnapshot.exists()) {
                 const checkedData = docSnapshot.data().checked;
                 setCheckedStudents(checkedData);
+                console.log(checkedData);
                 setIsGetCheckinOpen(true);
             } else {
                 console.log("No such document!");
@@ -423,16 +423,16 @@ function ShowCheckIN() {
                                 </button>
                             </div>
                             <div>
-                                <h2 className="text-lg font-semibold mb-2">Checked Students</h2>
+                                <h2 className="text-lg font-semibold mb-2">นักเรียนที่เช็คชื่อแล้ว</h2>
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
                                         <tr>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">รหัสนักศึกษา</th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ชื่อ</th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">สาขา</th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Section</th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">วันที่</th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">การดำเนินการ</th>
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
@@ -441,6 +441,7 @@ function ShowCheckIN() {
                                                 <td className="px-6 py-4 whitespace-nowrap">{student.stdid}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">{student.name}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">{student.email}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap">{student.course}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">{student.section}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">{new Date(student.checked_date).toLocaleString()}</td>
                                             </tr>
