@@ -471,7 +471,7 @@ function ShowCheckIN() {
                             <div>
                                 {checkin.map((checkin, index) => (
                                     <>
-                                        <p style={{ fontSize: "48px" }}>รหัสห้อง: {checkin.room_code}</p>
+                                        <p key={index} style={{ fontSize: "48px" }}>รหัสห้อง: {checkin.room_code}</p>
                                     </>
                                 ))}
                             </div>
