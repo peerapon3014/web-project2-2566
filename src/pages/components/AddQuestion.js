@@ -13,7 +13,7 @@ const AddQuestionForm = () => {
 
     try {
       // เพิ่มคำถามใหม่เข้าไปใน subcollection "checkin"
-      const docRef = await addDoc(collection(db, 'checkin'), {
+      const docRef = await addDoc(collection(db, 'questions'), {
         question: question,
         answer: '',   // ใส่ข้อมูลคำตอบเป็นค่าว่างเพื่อรอการกรอกจากผู้ใช้
         senderName: ''  // ใส่ข้อมูลชื่อผู้ส่งเป็นค่าว่างเพื่อรอการกรอกจากผู้ใช้

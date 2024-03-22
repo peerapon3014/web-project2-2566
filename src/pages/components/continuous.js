@@ -21,6 +21,7 @@ export function postToFirebase(origObj) {
   return newObj;
 }
 
+
 export default function Coursedetail() {
   const [isRole, setIsRole] = useState(null)
   const router = useRouter();
@@ -30,8 +31,9 @@ export default function Coursedetail() {
   const [roomCode, setCode] = useState("");
   const [studentData, setStuddentData] = useState(null);
   const [question, setQuestion] = useState([]);
-  const [answers, setAnswers] = useState([]);
+  const [answers, setAnswers] = useState({});
   const debounceTimeout = useRef(null);
+  const [submittedAnswers, setSubmittedAnswers] = useState(false); // เพิ่มตัวแปร state เพื่อตรวจสอบว่าผู้ใช้ได้คลิกที่ปุ่ม "ยืนยัน" แล้วหรือไม่
 
   const handleCheckin = async () => {
     if (!roomCode.trim()) {
@@ -121,50 +123,71 @@ export default function Coursedetail() {
     };
     fetchQuestions();
   }, []);
+  
+  useEffect(() => {
+    const updateAnswersToFirestore = async () => {
+      // ส่งคำตอบไปยังฐานข้อมูลเมื่อผู้ใช้กดปุ่ม "ยืนยัน"
+      if (submittedAnswers) {
+        // Loop through each question and update its corresponding answer in Firestore
+        for (const [questionId, value] of Object.entries(answers)) {
+          handleAnswerChange(value, questionId);
+        }
+      }
+    };
+    
+    // Call the function to update answers to Firestore whenever answers change
+    updateAnswersToFirestore();
+  }, [answers, submittedAnswers]); // เพิ่ม dependency เป็น answers และ submittedAnswers เพื่อให้ useEffect เรียกใช้งานเมื่อมีการเปลี่ยนแปลงคำตอบ หรือผู้ใช้กดยืนยัน
+  
+  
 
+  // ฟังก์ชัน handleAnswerChange จัดการกับการอัปเดตคำตอบใน state และส่งข้อมูลไปยัง Firebase
   const handleAnswerChange = async (value, questionId) => {
+    // Update local state with the new answer
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
       [questionId]: value,
     }));
+  };
+
   
-    // Update Firestore document with the new answer
-    const questionRef = doc(db, 'questions', questionId);
-    const docSnapshot = await getDoc(questionRef);
-    if (docSnapshot.exists()) {
-      let qa = docSnapshot.data();
-      let student = studentData;
-      let answer = qa.answer ? qa.answer : []; // Ensure that answer is an array or initialize as an empty array
-      const isUserAnswer = Array.isArray(answer) && answer.some(item => item.name === student.name);
-  
-      // Get previous answer from state
-      const prevAnswer = answers[questionId];
-  
-      // Only update Firebase if the new value is different from the previous value
-      if (value !== prevAnswer) {
-        // Construct new answer object
-        let newAnswer = {
-          answer: value,
-          stdid: student.stdid,
-          name: student.name,
-          email: student.email,
-          course: student.course,
-          section: student.section,
-        };
-        // Update Firestore document
-        updateDoc(questionRef, { answer: [...answer, newAnswer] }) // Add new answer to existing answers
-          .then(() => {
-            console.log("Answer updated successfully");
-            alert(`${student.stdid} ${student.name} บันทึกคำตอบสำเร็จ`);
-          })
-          .catch((error) => {
-            console.error("Error updating answer: ", error);
-          });
-      } else {
-        console.log("New value is the same as the previous value, skipping update to Firebase");
+  // ใช้ได้แล้ว
+  const handleSubmitAnswers = async () => {
+    if (!submittedAnswers) {
+      setSubmittedAnswers(true);
+      for (const [questionId, value] of Object.entries(answers)) {
+        const questionRef = doc(db, 'questions', questionId);
+        const docSnapshot = await getDoc(questionRef);
+        if (docSnapshot.exists()) {
+          const qa = docSnapshot.data();
+          const answer = qa.answer ? qa.answer : []; // เรียกใช้ array ของคำตอบ หรือสร้าง array ใหม่ถ้ายังไม่มี
+          const student = studentData;
+          const prevAnswer = answer.find(a => a.stdid === student.stdid); // ค้นหาคำตอบของนักเรียนคนนี้
+          if (!prevAnswer) { // ถ้านักเรียนคนนี้ยังไม่ได้ส่งคำตอบ
+            const newAnswer = {
+              answer: value,
+              stdid: student.stdid,
+              name: student.name,
+              email: student.email,
+              course: student.course,
+              section: student.section,
+            };
+            updateDoc(questionRef, { answer: [...answer, newAnswer] })
+              .then(() => {
+                console.log("Answer updated successfully");
+                alert(`${student.stdid} ${student.name} บันทึกคำตอบสำเร็จ`);
+              })
+              .catch((error) => {
+                console.error("Error updating answer: ", error);
+              });
+          } else {
+            console.log("Student already submitted an answer for this question");
+          }
+        }
       }
     }
   };
+
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -328,10 +351,7 @@ export default function Coursedetail() {
                         </div>
                         <div className="mt-6">
                           <button
-                            onClick={() => {
-                              handleAnswerChange();
-                              setIsQuestionDialogOpen(false);
-                            }}
+                            onClick={handleSubmitAnswers} // เรียกใช้งานฟังก์ชันเมื่อผู้ใช้กดปุ่ม "ยืนยัน"
                             className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-700 sm:text-sm"
                           >
                             ยืนยัน
