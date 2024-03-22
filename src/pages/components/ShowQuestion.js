@@ -11,9 +11,11 @@ function ShowQuestion() {
     const [selectedQuestion, setselectedQuestion] = useState(null);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [isGetCheckinOpen, setIsGetCheckinOpen] = useState(false);
+    const [checkedAnswers, setCheckedAnswers] = useState([]);
 
     useEffect(() => {
-        const fetchStudents = async () => {
+        const fetchQuestions = async () => {
             try {
                 const querySnapshot = await getDocs(collection(db, 'questions'));
                 const questionList = [];
@@ -26,10 +28,10 @@ function ShowQuestion() {
                 console.error('Error fetching questions: ', error);
             }
         };
-        fetchStudents();
+        fetchQuestions();
     }, []);
 
-    const handleAddStudent = async () => {
+    const handleAddQuestion = async () => {
         try {
             const docRef = await addDoc(collection(db, 'questions'), {
                 question: newQuestion,
@@ -84,6 +86,23 @@ function ShowQuestion() {
         }
     };
 
+    const handleShowAnswers = async (questionId) => {
+        try {
+            const docRef = doc(db, 'questions', questionId);
+            const docSnapshot = await getDoc(docRef);
+            if (docSnapshot.exists()) {
+                const answerData = docSnapshot.data().answer;
+                setCheckedAnswers(answerData);
+                console.log(answerData);
+                setIsGetCheckinOpen(true);
+            } else {
+                console.log("No such document!");
+            }
+        } catch (error) {
+            console.error('Error fetching checked students: ', error);
+        }
+    };
+
     return (
         <>
             <div className='bg-white  p-6 py-8 lg:px-32 md:px-8 m-5 rounded-lg h-[60em]'>
@@ -121,7 +140,8 @@ function ShowQuestion() {
                                         <button onClick={() => handleDeleteQuestion(question.id)} className="ml-2">
                                             <TrashIcon className="h-6 w-6 text-red-600" />
                                         </button>
-                                        <button className="ml-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                        <button onClick={() => handleShowAnswers(question.id)}
+                                            className="ml-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                             ดูคำตอบ
                                         </button>
                                     </td>
@@ -158,7 +178,7 @@ function ShowQuestion() {
                             </div>
                             <div className="mt-6">
                                 <button
-                                    onClick={handleAddStudent}
+                                    onClick={handleAddQuestion}
                                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-500 sm:text-sm"
                                 >
                                     เพิ่ม
@@ -167,7 +187,7 @@ function ShowQuestion() {
                         </div>
                     </div>
                 </div >
-            ) : isEditDialogOpen && (
+            ) : isEditDialogOpen ? (
                 <div className="fixed z-10 inset-0 overflow-y-auto flex justify-center items-center">
                     <div className="flex items-center justify-center min-h-screen">
                         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -202,8 +222,49 @@ function ShowQuestion() {
                         </div>
                     </div>
                 </div>
-            )
-            }
+            ) : isGetCheckinOpen && (
+                <div className="fixed z-10 inset-0 overflow-y-auto flex justify-center items-center">
+                    <div className="flex items-center justify-center min-h-screen">
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                        <div className="relative bg-white w-auto h-auto rounded-lg p-8">
+                            <div className="flex justify-end">
+                                <button onClick={() => setIsGetCheckinOpen(false)}>
+                                    <XMarkIcon className="h-6 w-6 text-gray-500" />
+                                </button>
+                            </div>
+                            <div>
+                                <h2 className="text-lg font-semibold mb-2">นักเรียนที่เช็คชื่อแล้ว</h2>
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-gray-50">
+                                        <tr>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">คำตอบ</th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">รหัสนักศึกษา</th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ชื่อ</th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">สาขา</th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Section</th>
+                                            {/* <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">วันที่</th> */}
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {checkedAnswers.map((answer, index) => (
+                                            <tr key={index}>
+                                                <td className="px-6 py-4 whitespace-nowrap">{answer.answer}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap">{answer.stdid}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap">{answer.name}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap">{answer.email}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap">{answer.course}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap">{answer.section}</td>
+                                                {/* <td className="px-6 py-4 whitespace-nowrap">{new Date(answer.answered_date).toLocaleString()}</td> */}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

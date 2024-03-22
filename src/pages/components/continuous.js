@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { auth, db } from '../firebase'
-import { collection, query, where, getDocs, updateDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, updateDoc, doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { CheckIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import Webde from '../images/webde.png'
@@ -25,9 +25,13 @@ export default function Coursedetail() {
   const [isRole, setIsRole] = useState(null)
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isQuestionDialogOpen, setIsQuestionDialogOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [roomCode, setCode] = useState("");
   const [studentData, setStuddentData] = useState(null);
+  const [question, setQuestion] = useState([]);
+  const [answers, setAnswers] = useState([]);
+  const debounceTimeout = useRef(null);
 
   const handleCheckin = async () => {
     if (!roomCode.trim()) {
@@ -47,7 +51,6 @@ export default function Coursedetail() {
         if (doc.exists()) {
           let room = doc.data();
           let checked = room.checked ? room.checked : [];
-          // Check if the current user's name is already in the checked list
           const isUserCheckedIn = checked.some(item => item.name === user.displayName);
           if (!isUserCheckedIn) {
             let data = postToFirebase({
@@ -76,7 +79,6 @@ export default function Coursedetail() {
         let room = doc.data();
         let student = studentData;
         let checked = room.checked ? room.checked : [];
-        // Check if the current user's name is already in the checked list
         const isUserCheckedIn = checked.some(item => item.name === student.name);
         if (!isUserCheckedIn) {
           let data = postToFirebase({
@@ -101,6 +103,67 @@ export default function Coursedetail() {
         }
       }
     });
+  };
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'questions'));
+        const questionList = [];
+        querySnapshot.forEach((doc) => {
+          const questionData = { id: doc.id, ...doc.data() };
+          questionList.push(questionData);
+        });
+        setQuestion(questionList);
+      } catch (error) {
+        console.error('Error fetching questions: ', error);
+      }
+    };
+    fetchQuestions();
+  }, []);
+
+  const handleAnswerChange = async (value, questionId) => {
+    setAnswers((prevAnswers) => ({
+      ...prevAnswers,
+      [questionId]: value,
+    }));
+  
+    // Update Firestore document with the new answer
+    const questionRef = doc(db, 'questions', questionId);
+    const docSnapshot = await getDoc(questionRef);
+    if (docSnapshot.exists()) {
+      let qa = docSnapshot.data();
+      let student = studentData;
+      let answer = qa.answer ? qa.answer : []; // Ensure that answer is an array or initialize as an empty array
+      const isUserAnswer = Array.isArray(answer) && answer.some(item => item.name === student.name);
+  
+      // Get previous answer from state
+      const prevAnswer = answers[questionId];
+  
+      // Only update Firebase if the new value is different from the previous value
+      if (value !== prevAnswer) {
+        // Construct new answer object
+        let newAnswer = {
+          answer: value,
+          stdid: student.stdid,
+          name: student.name,
+          email: student.email,
+          course: student.course,
+          section: student.section,
+        };
+        // Update Firestore document
+        updateDoc(questionRef, { answer: [...answer, newAnswer] }) // Add new answer to existing answers
+          .then(() => {
+            console.log("Answer updated successfully");
+            alert(`${student.stdid} ${student.name} บันทึกคำตอบสำเร็จ`);
+          })
+          .catch((error) => {
+            console.error("Error updating answer: ", error);
+          });
+      } else {
+        console.log("New value is the same as the previous value, skipping update to Firebase");
+      }
+    }
   };
 
   useEffect(() => {
@@ -222,11 +285,62 @@ export default function Coursedetail() {
                     </div>
                   </div>
                 )}
-                <Link href='/components/Course'>
+                <Link href='#' onClick={() => setIsQuestionDialogOpen(true)}>
                   <div className="flex group cursor-pointer w-4/4 h-16 justify-between  items-center  mt-5 rounded-md bg-[#1373BB] hover:bg-blue-100 hover:shadow-lg text-white pl-10 hover:text-[#1373BB]">
                     ตอบคำถาม
                   </div>
                 </Link>
+                {isQuestionDialogOpen && (
+                  <div className="fixed z-10 inset-0 overflow-y-auto flex justify-center items-center">
+                    <div className="flex items-center justify-center min-h-screen">
+                      <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                      <div className="relative bg-white w-96 h-auto rounded-lg p-8">
+                        <div className="flex justify-end">
+                          <button onClick={() => setIsQuestionDialogOpen(false)}>
+                            <XMarkIcon className="h-6 w-6 text-gray-500" />
+                          </button>
+                        </div>
+                        <div>
+                          <div>
+                            {question.map((question, index) => (
+                              <div key={index}>
+                                <div className="mt-3">คำถาม: {question.question}</div>
+                                <div>
+                                  <Input
+                                    label="คำตอบ"
+                                    type="text"
+                                    variant="underlined"
+                                    name={`answer-${question.id}`} // Ensure each input has a unique name
+                                    id={`answer-${question.id}`} // Ensure each input has a unique id
+                                    autoComplete="given-name"
+                                    className="max-w-xs"
+                                    placeholder="กรอกคำตอบ"
+                                    value={answers[question.id] || ''} // Set input value from state
+                                    onChange={(e) => handleAnswerChange(e.target.value, question.id)} // Pass question id to onChange handler
+                                  />
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+
+                        </div>
+                        <div className="mt-6">
+                          <button
+                            onClick={() => {
+                              handleAnswerChange();
+                              setIsQuestionDialogOpen(false);
+                            }}
+                            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-700 sm:text-sm"
+                          >
+                            ยืนยัน
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <div className='mb-5 '>
                   <Accordion />
                 </div>
