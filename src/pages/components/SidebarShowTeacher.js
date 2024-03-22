@@ -72,11 +72,6 @@ const SidebarShowTeacherContext = () => {
         }).catch((error) => {
           console.log("Error getting documents: ", error);
         });
-        // if(user.email.split("@")[1] == "kkumail.com"){
-        //   setIsRole("student")
-        //   return;
-        // }
-        // setIsRole("unknown")
       } else {
         setIsRole("unknown")
         router.push('/');

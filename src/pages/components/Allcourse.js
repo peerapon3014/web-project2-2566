@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { auth, db } from '../firebase'
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import CsCards from './cs/cscard'
-import ITCards from './ITs/itcard'
-import GisCards from './gis/giscard'
 import AllCards from './Allcard'
-import Webde from '../images/webde.png'
 import MyNav from '@/pages/components/Navbar'
 import MyFooter from '@/pages/components/footer'
 
@@ -34,10 +30,6 @@ function Allcourse() {
                 }).catch((error) => {
                     console.log("Error getting documents: ", error);
                 });
-                // if(user.email.split("@")[1] == "kkumail.com"){
-                //   setIsRole("student")
-                //   return;
-                // }
                 setIsRole("unknown")
             }
         });
@@ -53,9 +45,6 @@ function Allcourse() {
                         <h1 className='mt-10 mb-10 text-3xl font-bold text-center text-[#1373BB]'>รายวิชาทั้งหมด</h1>
                         <div className=" py-24 sm:py-14">
                             <div className='mb-5'><AllCards /></div>
-                            {/* <div className='mb-5'><ITCards /></div>
-                                <div className='mb-5'><CsCards /></div>
-                                <div className='mb-5'><GisCards /></div>  */}
                         </div>
                     </div><MyFooter />
                 </>
@@ -68,9 +57,6 @@ function Allcourse() {
                         <h1 className='mt-10 mb-10 text-3xl font-bold text-center text-[#1373BB]'>รายวิชาทั้งหมด</h1>
                         <div className=" py-24 sm:py-14">
                             <div className='mb-5'><AllCards /></div>
-                            {/* <div className='mb-5'><ITCards /></div>
-                                <div className='mb-5'><CsCards /></div>
-                                <div className='mb-5'><GisCards /></div>  */}
                         </div>
                     </div><MyFooter />
                 </>

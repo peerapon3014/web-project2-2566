@@ -10,9 +10,6 @@ const includedFeatures = [
 import Accordion from "@/pages/data/Acconlate"
 import MyNav from '@/pages/components/Navbar'
 import MyFooter from '@/pages/components/footer'
-import Homepage from "@/pages/components/Homepage";
-import Homeadmin from "@/pages/components/Sidebar";
-import NotFound from '@/pages/components/NotFound'
 import { useRouter } from 'next/router';
 
 export default function Coursedetail() {
@@ -40,11 +37,6 @@ export default function Coursedetail() {
         }).catch((error) => {
           console.log("Error getting documents: ", error);
         });
-        // if(user.email.split("@")[1] == "kkumail.com"){
-        //   setIsRole("student")
-        //   return;
-        // }
-        // setIsRole("unknown")
       } else {
         setIsRole("unknown")
         router.push('/');

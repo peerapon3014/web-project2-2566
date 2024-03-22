@@ -3,11 +3,9 @@ import { useState, useEffect } from "react";
 import { auth, db } from '../../firebase'
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import Link from 'next/link';
 import Selects from '@/pages/components/cs/select'
 import Gis from '@/pages/images/gis.png';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Select } from 'flowbite-react';
 import Cards from './giscard'
 import MyNav from '@/pages/components/Navbar'
 import MyFooter from '@/pages/components/footer'
@@ -35,10 +33,6 @@ function cscourse() {
                 }).catch((error) => {
                     console.log("Error getting documents: ", error);
                 });
-                // if(user.email.split("@")[1] == "kkumail.com"){
-                //   setIsRole("student")
-                //   return;
-                // }
                 setIsRole("unknown")
             }
         });

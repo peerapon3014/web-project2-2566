@@ -1,11 +1,9 @@
 // import React from 'react'
 import EN from '@/pages/images/Software-engineer.png'
 import Link from 'next/link';
-// // import Data from '../images/Datastructure.png'
 import Network from "@/pages/images/network.png"
 import Parallel from "@/pages/images/parallel-programming.webp"
 import Java from "@/pages/images/Java.png"
-import Xml from "@/pages/images/XML.png"
 import { useState, useEffect } from "react";
 import { auth, db } from '../firebase'
 import { collection, query, where, getDocs } from "firebase/firestore";
@@ -38,10 +36,6 @@ function cards() {
                 }).catch((error) => {
                     console.log("Error getting documents: ", error);
                 });
-                // if(user.email.split("@")[1] == "kkumail.com"){
-                //   setIsRole("student")
-                //   return;
-                // }
                 setIsRole("unknown")
             }
         });

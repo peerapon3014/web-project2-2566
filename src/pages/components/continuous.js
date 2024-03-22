@@ -150,11 +150,6 @@ export default function Coursedetail() {
                       </li>
                     ))}
                   </ul>
-                  {/* <div className=" text-base font-semibold mt-10 leading-">
-                    <div className="w-full bg-gray-200 rounded-full ">
-                      <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full w-[30em]" > 90%</div>
-                    </div>
-                  </div> */}
                 </div>
                 <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
                   <div className=" py-10  lg:flex lg:flex-col lg:justify-center lg:py-16">
