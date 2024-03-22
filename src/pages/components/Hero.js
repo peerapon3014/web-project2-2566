@@ -32,10 +32,6 @@ export default function Hero() {
         }).catch((error) => {
           console.log("Error getting documents: ", error);
         });
-        // if(user.email.split("@")[1] == "kkumail.com"){
-        //   setIsRole("student")
-        //   return;
-        // }
         setIsRole("unknown")
       }
     });

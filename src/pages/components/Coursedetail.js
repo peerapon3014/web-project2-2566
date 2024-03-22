@@ -23,7 +23,9 @@ export default function Coursedetail() {
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
             setIsRole("student")
-            return;
+          } else {
+            setIsRole("unknown");
+            router.push('/');
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);

@@ -47,19 +47,25 @@ export default function Coursedetail() {
         if (doc.exists()) {
           let room = doc.data();
           let checked = room.checked ? room.checked : [];
-          let data = postToFirebase({
-            stdid: "unknown",
-            name: user.displayName,
-            checked_date: new Date(),
-          });
-          checked.push(data);
-          updateDoc(doc.ref, { checked })
-            .then(() => {
-              console.log("Document successfully updated!");
-            })
-            .catch((error) => {
-              console.error("Error updating document: ", error);
+          // Check if the current user's name is already in the checked list
+          const isUserCheckedIn = checked.some(item => item.name === user.displayName);
+          if (!isUserCheckedIn) {
+            let data = postToFirebase({
+              stdid: "unknown",
+              name: user.displayName,
+              checked_date: new Date(),
             });
+            checked.push(data);
+            updateDoc(doc.ref, { checked })
+              .then(() => {
+                console.log("Document successfully updated!");
+              })
+              .catch((error) => {
+                console.error("Error updating document: ", error);
+              });
+          } else {
+            alert(user.displayName + " ได้เช็คชื่อไปแล้ว");
+          }
         }
       });
       return;
@@ -70,22 +76,28 @@ export default function Coursedetail() {
         let room = doc.data();
         let student = studentData;
         let checked = room.checked ? room.checked : [];
-        let data = postToFirebase({
-          stdid: student.stdid,
-          name: student.name,
-          email: student.email,
-          section: student.section,
-          checked_date: new Date(),
-        });
-        checked.push(data);
-        updateDoc(doc.ref, { checked })
-          .then(() => {
-            console.log("Check-in successful");
-            alert(student.stdid + " " + student.name + " เช็คชื่อสำเร็จ");
-          })
-          .catch((error) => {
-            console.error("Error Check-in: ", error);
+        // Check if the current user's name is already in the checked list
+        const isUserCheckedIn = checked.some(item => item.name === student.name);
+        if (!isUserCheckedIn) {
+          let data = postToFirebase({
+            stdid: student.stdid,
+            name: student.name,
+            email: student.email,
+            section: student.section,
+            checked_date: new Date(),
           });
+          checked.push(data);
+          updateDoc(doc.ref, { checked })
+            .then(() => {
+              console.log("Check-in successful");
+              alert(student.stdid + " " + student.name + " เช็คชื่อสำเร็จ");
+            })
+            .catch((error) => {
+              console.error("Error Check-in: ", error);
+            });
+        } else {
+          alert(student.name + " ได้เช็คชื่อไปแล้ว");
+        }
       }
     });
   };
@@ -101,7 +113,9 @@ export default function Coursedetail() {
           });
           if (querySnapshot.size > 0) {
             setIsRole("student")
-            return;
+          } else {
+            setIsRole("unknown");
+            router.push('/');
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);

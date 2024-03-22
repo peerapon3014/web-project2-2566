@@ -20,7 +20,9 @@ function Cscourse() {
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
             setIsRole("student")
-            return;
+          } else {
+            setIsRole("unknown");
+            router.push('/');
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);
@@ -59,14 +61,12 @@ function Cscourse() {
                       <div className="relative z-10  mx-auto max-w-md ">
                         <span className="grid h-20 w-20 place-items-center rounded-full bg-[#1373BB] transition-all duration-300 group-hover:bg-sky-300">
                           <BookOpenIcon className="h-10 w-10 text-white transition-all" />
-
                         </span>
                         <div
                           className=" pt-5 text-base leading-7 text-gray-600 transition-all duration-300 group-hover:text-white/90">
                           <h1 className=" text-xl font-bold  ">Mobile and Web Application Development</h1>
                           <p className="mb-3 font-normal ">การพัฒนาโปรแกรมประยุกต์สำหรับอุปกรณ์เคลื่อนที่และเว็บ</p>
                         </div>
-
                       </div>
                     </Link>
                   </div>
