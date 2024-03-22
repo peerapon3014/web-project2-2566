@@ -67,7 +67,9 @@ const SidebarShowTeacherContext = () => {
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
             setIsRole("teacher")
-            return;
+          } else {
+            setIsRole("unknown");
+            router.push('/');
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);
