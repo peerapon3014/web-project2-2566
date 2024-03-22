@@ -9,7 +9,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Cards from './cscard'
 import MyNav from '@/pages/components/Navbar'
 import MyFooter from '@/pages/components/footer'
-function cscourse() {
+function CsCourse() {
     const [isRole, setIsRole] = useState(null)
 
     useEffect(() => {
@@ -108,4 +108,4 @@ function cscourse() {
     )
 }
 
-export default cscourse
+export default CsCourse

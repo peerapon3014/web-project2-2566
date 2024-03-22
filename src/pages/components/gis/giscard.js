@@ -9,7 +9,7 @@ import Xml from "@/pages/images/XML.png"
 
 import React from 'react'
 
-function cards() {
+function GisCards() {
   return (
     <div className='flex item-center justify-center  mx-auto gap-20 container group'>
       <div className='grid grid-cols-1 gap-12  md:grid-cols-2 lg:grid-cols-3'>
@@ -61,4 +61,4 @@ function cards() {
   )
 }
 
-export default cards
+export default GisCards

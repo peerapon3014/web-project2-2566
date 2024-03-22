@@ -9,7 +9,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Cards from './giscard'
 import MyNav from '@/pages/components/Navbar'
 import MyFooter from '@/pages/components/footer'
-function cscourse() {
+function GisCourse() {
     const [isRole, setIsRole] = useState(null)
 
     useEffect(() => {
@@ -108,4 +108,4 @@ function cscourse() {
     )
 }
 
-export default cscourse
+export default GisCourse

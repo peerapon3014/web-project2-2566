@@ -22,7 +22,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-const navigation = () => {
+const Navigation = () => {
     const [showBackground, setShowBackground] = useState(false);
     const [navbarLogo, setNavbarLogo] = useState(MyLogo)
     const [user, setUser] = useState(null);
@@ -255,4 +255,4 @@ const navigation = () => {
 }
 
 
-export default navigation
+export default Navigation

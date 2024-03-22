@@ -118,7 +118,7 @@ export default function Coursedetail() {
               </div>
             </div>
           </div>
-          <MyFooter />'
+          <MyFooter />
         </>
       )}
     </>
