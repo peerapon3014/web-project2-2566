@@ -47,17 +47,16 @@ const Accordion = () => {
 
   return (
     <div className="flex flex-col justify-start rounded-xl h-auto ">
-      {data.map((data) => {
-        return (
-          <AccordionUI
-            title={data.question}
-            Id={data.id}
-            children={data.answer}
-            Index={Index}
-            setIndex={setIndex}
-          ></AccordionUI>
-        );
-      })}
+      {data.map((data) => (
+        <AccordionUI
+          key={data.id} // เพิ่ม key prop
+          title={data.question}
+          Id={data.id}
+          answers={data.answer} // ใช้ชื่อ prop ที่ไม่ใช่ children
+          Index={Index}
+          setIndex={setIndex}
+        />
+      ))}
     </div>
   );
 };
