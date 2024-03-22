@@ -31,7 +31,7 @@ function ShowStudent() {
                 });
                 setStudents(studentList);
             } catch (error) {
-                console.error('Error fetching teachers: ', error);
+                console.error('Error fetching students: ', error);
             }
         };
         fetchStudents();
@@ -78,7 +78,7 @@ function ShowStudent() {
     const handleEditStudent = async () => {
         try {
             if (!selectedStudent) {
-                console.error('No teacher selected for editing.');
+                console.error('No student selected for editing.');
                 return;
             }
 

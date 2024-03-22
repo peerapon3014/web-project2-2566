@@ -14,10 +14,10 @@ import {
 } from "firebase/auth";
 import { auth, db } from '../firebase'
 import { collection, query, where, getDocs } from "firebase/firestore";
-import ShowTeacher from "@/pages/components/ShowTeacher";
 import { useRouter } from 'next/router';
+import ShowQuestion from "@/pages/components/ShowQuestion";
 
-const SidebarShowTeacherContext = () => {
+const SidebarShowQuestionContext = () => {
   const [open, setOpen] = useState(true);
   const [user, setUser] = useState(null);
   const [Loading, setLoading] = useState(true);
@@ -59,7 +59,7 @@ const SidebarShowTeacherContext = () => {
         getDocs(q).then((querySnapshot) => {
           if (querySnapshot.size > 0) {
             setIsRole("student")
-            window.location.assign("/");
+            history.push("/");
           }
         }).catch((error) => {
           console.log("Error getting documents: ", error);
@@ -152,7 +152,7 @@ const SidebarShowTeacherContext = () => {
             </ul>
           </div>
           <div className=' flex-1 '>
-            <ShowTeacher />
+            <ShowQuestion />
           </div>
         </div>
       )}
@@ -160,4 +160,4 @@ const SidebarShowTeacherContext = () => {
   )
 }
 
-export default SidebarShowTeacherContext
+export default SidebarShowQuestionContext

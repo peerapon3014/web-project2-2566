@@ -4,7 +4,8 @@ import {
   ArrowRightStartOnRectangleIcon,
   ClipboardDocumentCheckIcon,
   UserGroupIcon,
-  UserIcon
+  UserIcon,
+  QuestionMarkCircleIcon 
 } from "@heroicons/react/24/outline";
 import Link from 'next/link';
 import {
@@ -127,6 +128,14 @@ const SidebarShowStudentContext = () => {
                   <UserIcon className="h-8 w-8 text-white" />
                   <span className={`${!open && "hidden"} origin-left text-[1.2em] duration-200`}>
                     <p className='text-lg mt-2  text-white '>แสดงรายชื่ออาจารย์</p>
+                  </span>
+                </li>
+              </Link>
+              <Link href='/components/SidebarShowQuestion'>
+                <li className={"flex hover:bg-blue-400  p-2  cursor-pointer  rounded-md   text-white text-sm items-center gap-x-4 "}>
+                  <QuestionMarkCircleIcon  className="h-8 w-8 text-white" />
+                  <span className={`${!open && "hidden"} origin-left text-[1.2em] duration-200`}>
+                    <p className='text-lg mt-2  text-white '>แสดงคำถามทั้งหมด</p>
                   </span>
                 </li>
               </Link>
