@@ -16,13 +16,13 @@ function Profile() {
         <>
             <MyNav />
             <div className='p-6 py-8 lg:px-32 md:px-8 mb-0 '>
-                <div class="grid grid-rows-4 grid-flow-col gap-4 ">
-                    <div class="row-span-3 ">
+                <div className="grid grid-rows-4 grid-flow-col gap-4 ">
+                    <div className="row-span-3 ">
 
 
                         <div
-                            class="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-16 bg-white shadow-xl rounded-lg text-gray-900">
-                            <div class="rounded-t-lg h-32 overflow-hidden">
+                            className="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-16 bg-white shadow-xl rounded-lg text-gray-900">
+                            <div className="rounded-t-lg h-32 overflow-hidden">
                                 <img
                                     className="object-cover object-top w-full"
                                     src={BgHero.src}
@@ -30,19 +30,19 @@ function Profile() {
                                 />
 
                             </div>
-                            <div class="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
+                            <div className="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
                                 <img
                                     className="object-cover object-top w-full"
                                     src={Yoshi.src}
                                     alt=""
                                 />
                             </div>
-                            <div class="text-center mt-2">
-                                <h2 class="font-semibold">Kanemoto Yoshinori</h2>
-                                <p class="text-gray-500">643020349-6    วิทยาการคอมพิวเตอร์</p>
+                            <div className="text-center mt-2">
+                                <h2 className="font-semibold">Kanemoto Yoshinori</h2>
+                                <p className="text-gray-500">643020349-6    วิทยาการคอมพิวเตอร์</p>
                             </div>
-                            <ul class="py-4 mt-2 text-gray-700 flex items-center ml-10">
-                                <li class="flex flex-col items-center">
+                            <ul className="py-4 mt-2 text-gray-700 flex items-center ml-10">
+                                <li className="flex flex-col items-center">
 
 
                                     <EnvelopeIcon className="h-6 w-6 text-gray-500" />
@@ -55,12 +55,12 @@ function Profile() {
                                 </span>
 
                             </ul>
-                            <div class="p-4 border-t mx-8 mt-2">
-                                <button class="w-1/2 block mx-auto rounded-full bg-gray-900 hover:shadow-lg font-semibold text-white px-6 py-2">   ออกจากระบบ</button>
+                            <div className="p-4 border-t mx-8 mt-2">
+                                <button className="w-1/2 block mx-auto rounded-full bg-gray-900 hover:shadow-lg font-semibold text-white px-6 py-2">   ออกจากระบบ</button>
                             </div>
                         </div>
                     </div>
-                    <div class="row-span-3 col-span-2 bg-white   mt-16 bg-white shadow-xl rounded-lg text-gray-900">
+                    <div className="row-span-3 col-span-2 bg-white   mt-16 bg-white shadow-xl rounded-lg text-gray-900">
                         <div className="flex w-full flex-col ">
                             <Tabs
                                 aria-label="Options"
@@ -82,24 +82,24 @@ function Profile() {
 
                                         </div>
                                     }>
-                                    <div class="flex flex-col">
+                                    <div className="flex flex-col">
 
 
-                                        <div class="grid grid-cols-1 px-12 mt-4 gap-4">
-                                            <div class="flex items-start p-4 rounded-xl shadow-lg bg-white">
+                                        <div className="grid grid-cols-1 px-12 mt-4 gap-4">
+                                            <div className="flex items-start p-4 rounded-xl shadow-lg bg-white">
                                                 <div className="radial-progress text-[#1373BB]" style={{ "--value": 70 }} role="progressbar">70%</div>
 
 
-                                                <div class="ml-4">
+                                                <div className="ml-4">
                                                     <h4 className='text-xl font-bold mt-3'>322371 Web Desigh Technologies</h4>
                                                     <p className='text-sm leading-7 my-3  '>เทคโนโลยีสารสนเทศ ปริญญาตรี</p>
                                                 </div>
                                             </div>
-                                            <div class="flex items-start p-4 rounded-xl shadow-lg bg-white">
+                                            <div className="flex items-start p-4 rounded-xl shadow-lg bg-white">
                                                 <div className="radial-progress text-green-500 " style={{ "--value": 50 }} role="progressbar">50%</div>
 
 
-                                                <div class="ml-4">
+                                                <div className="ml-4">
                                                     <h4 className='text-xl font-bold mt-3'>322371 Web Desigh Technologies</h4>
                                                     <p className='text-sm leading-7 my-3  '>เทคโนโลยีสารสนเทศ ปริญญาตรี</p>
                                                 </div>
@@ -123,8 +123,8 @@ function Profile() {
                                     
                                     <div className='px-12 mt-4'>
                                     <form>
-                                        <div class="mb-5">
-                                            <label for="name" class="mb-3 block text-base font-medium text-[#07074D]">
+                                        <div className="mb-5">
+                                            <label for="name" className="mb-3 block text-base font-medium text-[#07074D]">
                                                 ชื่อ
                                             </label>
                                             <Input
@@ -137,8 +137,8 @@ function Profile() {
                                                 className="max-w-[300px] "
                                             />
                                         </div>
-                                        <div class="mb-5">
-                                            <label for="phone" class="mb-3 block text-base font-medium text-[#07074D]">
+                                        <div className="mb-5">
+                                            <label for="phone" className="mb-3 block text-base font-medium text-[#07074D]">
                                                 นามสกุล
                                             </label>
                                             <Input
@@ -151,8 +151,8 @@ function Profile() {
                                                 className="max-w-[300px] "
                                             />
                                         </div>
-                                        <div class="mb-5">
-                                            <label for="phone" class="mb-3 block text-base font-medium text-[#07074D]">
+                                        <div className="mb-5">
+                                            <label for="phone" className="mb-3 block text-base font-medium text-[#07074D]">
                                                 นามสกุล
                                             </label>
                                             <Input

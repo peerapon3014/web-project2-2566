@@ -15,9 +15,9 @@ import {
 import { auth, db } from '../firebase'
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { useRouter } from 'next/router';
-import ShowCheckIn from "@/pages/components/ShowCheckIn";
+import ShowQuestion from "@/pages/components/ShowQuestion";
 
-const SidebarContext = () => {
+const SidebarShowQuestionContext = () => {
   const [open, setOpen] = useState(true);
   const [user, setUser] = useState(null);
   const [Loading, setLoading] = useState(true);
@@ -152,7 +152,7 @@ const SidebarContext = () => {
             </ul>
           </div>
           <div className=' flex-1 '>
-            <ShowCheckIn />
+            <ShowQuestion />
           </div>
         </div>
       )}
@@ -160,4 +160,4 @@ const SidebarContext = () => {
   )
 }
 
-export default SidebarContext
+export default SidebarShowQuestionContext

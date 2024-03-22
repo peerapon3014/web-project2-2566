@@ -1,8 +1,5 @@
 import "@/styles/globals.css";
 import { Inter, Playfair_Display, Noto_Sans_Thai } from 'next/font/google'
-import MyNav from '@/pages/components/Navbar' 
-import Banner from '@/pages/components/banner' 
-import MyFooter from '@/pages/components/footer'  
 
 const inter = Inter({
   subsets: ['latin'],
@@ -22,10 +19,7 @@ const noto = Noto_Sans_Thai({
 export default function App({ Component, pageProps }) {
   return (
     <main className={`${inter.variable} ${playfair.variable} ${noto.variable}`}>
-      {/* <Banner/> */}
-      {/* <MyNav/> */}
-        <Component {...pageProps} />
-      {/* <MyFooter/> */}
+      <Component {...pageProps} />
     </main>
   )
 }
