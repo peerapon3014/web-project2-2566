@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { auth, db } from '../firebase'
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, updateDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { CheckIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import Webde from '../images/webde.png'
@@ -11,22 +11,94 @@ import Accordion from "@/pages/data/Acconlate"
 import MyNav from '@/pages/components/Navbar'
 import MyFooter from '@/pages/components/footer'
 import Link from 'next/link';
-import Homepage from "@/pages/components/Homepage";
-import Homeadmin from "@/pages/components/Sidebar";
 import NotFound from '@/pages/components/NotFound'
 import { useRouter } from 'next/router';
 import { Input } from "@nextui-org/react";
+
+export function postToFirebase(origObj) {
+  let string = JSON.stringify(origObj);
+  let newObj = JSON.parse(string);
+  return newObj;
+}
 
 export default function Coursedetail() {
   const [isRole, setIsRole] = useState(null)
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [roomCode, setCode] = useState("");
+  const [studentData, setStuddentData] = useState(null);
+
+  const handleCheckin = async () => {
+    if (!roomCode.trim()) {
+      alert("กรุณากรอกรหัสห้อง");
+      return;
+    }
+
+    let q = query(collection(db, "checkin"), where("room_code", "==", roomCode));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      alert("ไม่พบรหัสห้อง");
+      return;
+    }
+
+    if (!studentData) {
+      querySnapshot.forEach((doc) => {
+        if (doc.exists()) {
+          let room = doc.data();
+          let checked = room.checked ? room.checked : [];
+          let data = postToFirebase({
+            stdid: "unknown",
+            name: user.displayName,
+            checked_date: new Date(),
+          });
+          checked.push(data);
+          updateDoc(doc.ref, { checked })
+            .then(() => {
+              console.log("Document successfully updated!");
+            })
+            .catch((error) => {
+              console.error("Error updating document: ", error);
+            });
+        }
+      });
+      return;
+    }
+
+    querySnapshot.forEach((doc) => {
+      if (doc.exists()) {
+        let room = doc.data();
+        let student = studentData;
+        let checked = room.checked ? room.checked : [];
+        let data = postToFirebase({
+          stdid: student.stdid,
+          name: student.name,
+          email: student.email,
+          section: student.section,
+          checked_date: new Date(),
+        });
+        checked.push(data);
+        updateDoc(doc.ref, { checked })
+          .then(() => {
+            console.log("Check-in successful");
+            alert(student.stdid + " " + student.name + " เช็คชื่อสำเร็จ");
+          })
+          .catch((error) => {
+            console.error("Error Check-in: ", error);
+          });
+      }
+    });
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
+      setUser(user);
       if (user) {
         let q = query(collection(db, "students"), where("email", "==", user.email));
         getDocs(q).then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            setStuddentData(doc.data());
+          });
           if (querySnapshot.size > 0) {
             setIsRole("student")
             return;
@@ -43,11 +115,6 @@ export default function Coursedetail() {
         }).catch((error) => {
           console.log("Error getting documents: ", error);
         });
-        // if(user.email.split("@")[1] == "kkumail.com"){
-        //   setIsRole("student")
-        //   return;
-        // }
-        // setIsRole("unknown")
       } else {
         setIsRole("unknown")
         router.push('/');
@@ -89,7 +156,6 @@ export default function Coursedetail() {
                     </div>
                   </div> */}
                 </div>
-
                 <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
                   <div className=" py-10  lg:flex lg:flex-col lg:justify-center lg:py-16">
                     <div className="mx-auto max-w-xs px-8">
@@ -98,7 +164,6 @@ export default function Coursedetail() {
                   </div>
                 </div>
               </div>
-
               <div className='bg-white  shadow-xl shadow-blue-100/50  mt-10 p-8 '>
                 <Link href='#' onClick={() => setIsDialogOpen(true)}>
                   <div className="flex group cursor-pointer w-4/4 h-16 justify-between  items-center  mt-5 rounded-md bg-[#1373BB] hover:bg-blue-100 hover:shadow-lg text-white pl-10 hover:text-[#1373BB]">
@@ -124,16 +189,23 @@ export default function Coursedetail() {
                               name="roomCode"
                               id="roomCode"
                               autoComplete="given-name"
-                              placeholder="ยังไม่แล้วเด้อ"
                               className="max-w-xs"
+                              placeholder="กรอกรหัสห้องเรียน"
+                              onChange={(e) => {
+                                setCode(e.target.value);
+                              }}
                             />
                           </div>
                         </div>
                         <div className="mt-6">
                           <button
-                            onClick={() => setIsDialogOpen(false)}
-                            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-700 sm:text-sm">
-                            ยืนยัน
+                            onClick={() => {
+                              handleCheckin();
+                              setIsDialogOpen(false);
+                            }}
+                            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-700 sm:text-sm"
+                          >
+                            เช็คชื่อ
                           </button>
                         </div>
                       </div>
