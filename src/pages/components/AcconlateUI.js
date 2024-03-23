@@ -15,7 +15,7 @@ const AccornlateUI = ({ title, children, Id, Index, setIndex }) => {
         <>
             <div
                 onClick={() => handleToggleIndex(Id)}
-                
+
                 className="flex group cursor-pointer w-4/4 h-16 justify-between  items-center  mt-5 rounded-md bg-[#1373BB] hover:bg-blue-100 hover:shadow-lg "
             >
                 <div className="flex group cursor-pointer">
@@ -35,8 +35,7 @@ const AccornlateUI = ({ title, children, Id, Index, setIndex }) => {
             {Index === Id && (
                 <div className="bg-blue-100 pl-10   text-[#1373BB]  w-4/4 h-auto  rounded-md p-4 border-l-2 border-blue-500 mb-2 ">
                     {children.map((text, index) => (
-                        <p key={index} className="mb-5 ">{text}</p>
-
+                        <p key={text.id} className="mb-5">{text}</p>
                     ))}
                 </div>
             )}

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import AcconlateUI from "../components/AcconlateUI";
-import AccordionUI from "../components/AccordionUI";
 import Link from 'next/link';
 
 const Acconlate = () => {
@@ -104,17 +103,20 @@ const Acconlate = () => {
   ];
 
   return (
-    <div className="flex flex-col justify-center items-center  rounded-xl h-auto ">
-      {data.map((data, index) => (
-        <AccordionUI
-          key={index}
-          title={data.question}
-          Id={data.id}
+    <div className="flex flex-col justify-start rounded-xl h-auto">
+      {data.map((dataItem) => (
+        <AcconlateUI
+          key={dataItem.id} // ให้ key เป็นค่าที่ไม่ซ้ำกัน เช่น id
+          title={dataItem.question}
+          Id={dataItem.id}
+          color={dataItem.color}
           Index={Index}
           setIndex={setIndex}
-          answers={data.answer} // ส่งคำตอบเป็น props แทน
-        />
+        >
+          {dataItem.answer}
+        </AcconlateUI>
       ))}
+
     </div>
 
 
