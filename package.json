@@ -1,10 +1,10 @@
 {
-  "name": "WebProject2-checkIn",
+  "name": "Webproject2-checkIn",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run dev",
-    "build": "npm run build",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
