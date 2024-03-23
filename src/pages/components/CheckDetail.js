@@ -5,7 +5,7 @@ import MyNav from '@/pages/components/Navbar'
 import MyFooter from '@/pages/components/footer'
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore'
-import { db } from '../firebaseConfig'
+import { db } from '../firebase'
 
 const includedFeatures = [
   'หลักการออกแบบเว็บไซต์',

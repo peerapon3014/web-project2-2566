@@ -4,7 +4,7 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore'
-import { db } from '../firebaseConfig'
+import { db } from '../firebase'
 
 async function fetchDataFromFirestore() {
     const querySnapshot = await getDocs(collection(db, "checkin"))
