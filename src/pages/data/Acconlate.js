@@ -104,9 +104,9 @@ const Accordion = () => {
 
   return (
     <div className="flex flex-col justify-start rounded-xl h-auto">
-      {data.map((dataItem, index) => (
+      {data.map((dataItem) => (
         <AccordionUI
-          key={index} // ให้ใช้ index เป็น key โดยไม่ควรใช้ id ในกรณีที่ค่า index และจำนวนข้อมูลไม่มีการเปลี่ยนแปลง
+          key={dataItem.id} // ให้ key เป็นค่าที่ไม่ซ้ำกัน เช่น id
           title={dataItem.question}
           Id={dataItem.id}
           color={dataItem.color}
@@ -116,6 +116,7 @@ const Accordion = () => {
           {dataItem.answer}
         </AccordionUI>
       ))}
+
     </div>
 
 
