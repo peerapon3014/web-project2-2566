@@ -106,7 +106,7 @@ const Acconlate = () => {
     <div className="flex flex-col justify-start rounded-xl h-auto">
       {data.map((dataItem) => (
         <AcconlateUI
-          key={dataItem.id} // ให้ key เป็นค่าที่ไม่ซ้ำกัน เช่น id
+          key={dataItem.id}
           title={dataItem.question}
           Id={dataItem.id}
           color={dataItem.color}
@@ -116,11 +116,7 @@ const Acconlate = () => {
           {dataItem.answer}
         </AcconlateUI>
       ))}
-
     </div>
-
-
-
   );
 };
 export default Acconlate;
