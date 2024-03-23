@@ -92,9 +92,14 @@ function ShowQuestion() {
             const docSnapshot = await getDoc(docRef);
             if (docSnapshot.exists()) {
                 const answerData = docSnapshot.data().answer;
-                setCheckedAnswers(answerData);
-                console.log(answerData);
-                setIsGetCheckinOpen(true);
+                if (answerData && answerData.length > 0) {
+                    setCheckedAnswers(answerData);
+                    console.log(answerData);
+                    setIsGetCheckinOpen(true);
+                } else {
+                    // แสดง Alert ว่าไม่พบคำตอบ
+                    alert('ไม่พบคำตอบ');
+                }
             } else {
                 console.log("No such document!");
             }
@@ -102,6 +107,7 @@ function ShowQuestion() {
             console.error('Error fetching checked students: ', error);
         }
     };
+    
 
     return (
         <>

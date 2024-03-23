@@ -128,19 +128,16 @@ export default function Coursedetail() {
     const updateAnswersToFirestore = async () => {
       // ส่งคำตอบไปยังฐานข้อมูลเมื่อผู้ใช้กดปุ่ม "ยืนยัน"
       if (submittedAnswers) {
-        // Loop through each question and update its corresponding answer in Firestore
+        
         for (const [questionId, value] of Object.entries(answers)) {
           handleAnswerChange(value, questionId);
         }
       }
     };
     
-    // Call the function to update answers to Firestore whenever answers change
     updateAnswersToFirestore();
-  }, [answers, submittedAnswers]); // เพิ่ม dependency เป็น answers และ submittedAnswers เพื่อให้ useEffect เรียกใช้งานเมื่อมีการเปลี่ยนแปลงคำตอบ หรือผู้ใช้กดยืนยัน
+  }, [answers, submittedAnswers]); 
   
-  
-
   // ฟังก์ชัน handleAnswerChange จัดการกับการอัปเดตคำตอบใน state และส่งข้อมูลไปยัง Firebase
   const handleAnswerChange = async (value, questionId) => {
     // Update local state with the new answer
@@ -150,7 +147,6 @@ export default function Coursedetail() {
     }));
   };
 
-  
   // ใช้ได้แล้ว
   const handleSubmitAnswers = async () => {
     if (!submittedAnswers) {
@@ -160,10 +156,10 @@ export default function Coursedetail() {
         const docSnapshot = await getDoc(questionRef);
         if (docSnapshot.exists()) {
           const qa = docSnapshot.data();
-          const answer = qa.answer ? qa.answer : []; // เรียกใช้ array ของคำตอบ หรือสร้าง array ใหม่ถ้ายังไม่มี
+          const answer = qa.answer ? qa.answer : []; 
           const student = studentData;
-          const prevAnswer = answer.find(a => a.stdid === student.stdid); // ค้นหาคำตอบของนักเรียนคนนี้
-          if (!prevAnswer) { // ถ้านักเรียนคนนี้ยังไม่ได้ส่งคำตอบ
+          const prevAnswer = answer.find(a => a.stdid === student.stdid); 
+          if (!prevAnswer) { 
             const newAnswer = {
               answer: value,
               stdid: student.stdid,
@@ -187,7 +183,6 @@ export default function Coursedetail() {
       }
     }
   };
-
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
