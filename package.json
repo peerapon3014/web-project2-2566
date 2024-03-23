@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run dev",
-    "build": "npm run build",
-    "start": "npm start",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -30,6 +30,7 @@
     "swiper": "^11.0.6"
   },
   "devDependencies": {
+    "next": "^14.1.4",
     "autoprefixer": "^10.0.1",
     "daisyui": "^4.7.2",
     "eslint": "^8",
