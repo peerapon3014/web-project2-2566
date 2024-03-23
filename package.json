@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -30,7 +30,6 @@
     "swiper": "^11.0.6"
   },
   "devDependencies": {
-    "next": "^14.1.4",
     "autoprefixer": "^10.0.1",
     "daisyui": "^4.7.2",
     "eslint": "^8",
