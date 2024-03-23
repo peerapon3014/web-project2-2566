@@ -104,16 +104,15 @@ const Acconlate = () => {
 
   return (
     <div className="flex flex-col justify-start rounded-xl h-auto">
-      {data.map((dataItem) => (
+      {data.map((data, index) => (
         <AcconlateUI
-          key={dataItem.id}
-          title={dataItem.question}
-          Id={dataItem.id}
-          color={dataItem.color}
+          key={index}
+          title={data.question}
+          Id={data.id}
           Index={Index}
           setIndex={setIndex}
+          answers={data.answer} // ส่งคำตอบเป็น props แทน
         >
-          {dataItem.answer}
         </AcconlateUI>
       ))}
     </div>
