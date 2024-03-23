@@ -123,21 +123,20 @@ export default function Coursedetail() {
     };
     fetchQuestions();
   }, []);
-  
+
   useEffect(() => {
     const updateAnswersToFirestore = async () => {
       // ส่งคำตอบไปยังฐานข้อมูลเมื่อผู้ใช้กดปุ่ม "ยืนยัน"
       if (submittedAnswers) {
-        
         for (const [questionId, value] of Object.entries(answers)) {
           handleAnswerChange(value, questionId);
         }
       }
     };
-    
+
     updateAnswersToFirestore();
-  }, [answers, submittedAnswers]); 
-  
+  }, [answers, submittedAnswers]);
+
   // ฟังก์ชัน handleAnswerChange จัดการกับการอัปเดตคำตอบใน state และส่งข้อมูลไปยัง Firebase
   const handleAnswerChange = async (value, questionId) => {
     // Update local state with the new answer
@@ -156,10 +155,10 @@ export default function Coursedetail() {
         const docSnapshot = await getDoc(questionRef);
         if (docSnapshot.exists()) {
           const qa = docSnapshot.data();
-          const answer = qa.answer ? qa.answer : []; 
+          const answer = qa.answer ? qa.answer : [];
           const student = studentData;
-          const prevAnswer = answer.find(a => a.stdid === student.stdid); 
-          if (!prevAnswer) { 
+          const prevAnswer = answer.find(a => a.stdid === student.stdid);
+          if (!prevAnswer) {
             const newAnswer = {
               answer: value,
               stdid: student.stdid,
@@ -178,6 +177,7 @@ export default function Coursedetail() {
               });
           } else {
             console.log("Student already submitted an answer for this question");
+            alert(`${student.stdid} ${student.name} ได้คำตอบไปแล้ว`);
           }
         }
       }
@@ -346,7 +346,10 @@ export default function Coursedetail() {
                         </div>
                         <div className="mt-6">
                           <button
-                            onClick={handleSubmitAnswers} // เรียกใช้งานฟังก์ชันเมื่อผู้ใช้กดปุ่ม "ยืนยัน"
+                            onClick={() => {
+                              handleSubmitAnswers(); // เรียกใช้งานฟังก์ชันเมื่อผู้ใช้กดปุ่ม "ยืนยัน"
+                              setIsQuestionDialogOpen(false);
+                            }}
                             className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-indigo-700 sm:text-sm"
                           >
                             ยืนยัน
