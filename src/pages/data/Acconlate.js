@@ -104,20 +104,20 @@ const Accordion = () => {
 
   return (
     <div className="flex flex-col justify-start rounded-xl h-auto">
-      {data.map((data, index) => {
-        return (
-          <AccordionUI
-            key={index}
-            title={data.question}
-            Id={data.id}
-            children={data.answer}
-            Index={Index}
-            setIndex={setIndex}
-            color={data.color}
-          ></AccordionUI>
-        );
-      })}
+      {data.map((dataItem, index) => (
+        <AccordionUI
+          key={index}
+          title={dataItem.question}
+          Id={dataItem.id}
+          color={dataItem.color}
+          Index={Index}
+          setIndex={setIndex}
+        >
+          {dataItem.answer}
+        </AccordionUI>
+      ))}
     </div>
+
   );
 };
 export default Accordion;
