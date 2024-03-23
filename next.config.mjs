@@ -4,7 +4,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-    pageExtensions: ['page.js']
+    // pageExtensions: ['page.js']
   
 };
 
