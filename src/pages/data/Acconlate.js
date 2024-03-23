@@ -17,7 +17,7 @@ const Acconlate = () => {
       id: 2,
       question: "1. HTML  CSS  Java Script",
       color: "#FF0000",
-      answer: ["เอกสาร",
+      answer: ["เอกสาร1",
         <Link href={"https://www.w3schools.com/html/"}>
           https://www.w3schools.com/html/
         </Link>,
